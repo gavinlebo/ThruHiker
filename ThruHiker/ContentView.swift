@@ -6,17 +6,27 @@
 //
 
 import SwiftUI
+@_spi(Experimental) import MapboxMaps
+
+
+
+
+let location = CLLocationCoordinate2D(latitude: 35.5073219, longitude: -120)
+
+
 
 struct ContentView: View {
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("thru-hiker!")
-            Text("TEST")
+        Map(){
+            MapViewAnnotation(coordinate: location) {
+                Circle().fill(.blue)
+                                
+                        }
         }
-        .padding()
+        .mapStyle(MapStyle(uri: StyleURI(rawValue: "mapbox://styles/gavinlebo/cluyo7p3n005b01og5wbi0v1t")!))
+            .ignoresSafeArea()
+        
     }
 }
 

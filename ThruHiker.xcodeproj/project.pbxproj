@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		970EE6022BCB22C900BA8245 /* MapboxMaps in Frameworks */ = {isa = PBXBuildFile; productRef = 970EE6012BCB22C900BA8245 /* MapboxMaps */; };
+		970EF7AA2BCB683000BA8245 /* Sorted_PCT_Miles.json in Resources */ = {isa = PBXBuildFile; fileRef = 970EF7A92BCB683000BA8245 /* Sorted_PCT_Miles.json */; };
 		EEB1AF612BC65A930053526E /* ThruHikerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB1AF602BC65A930053526E /* ThruHikerApp.swift */; };
 		EEB1AF632BC65A930053526E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB1AF622BC65A930053526E /* ContentView.swift */; };
 		EEB1AF652BC65A940053526E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EEB1AF642BC65A940053526E /* Assets.xcassets */; };
@@ -34,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		970EF7A92BCB683000BA8245 /* Sorted_PCT_Miles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Sorted_PCT_Miles.json; sourceTree = "<group>"; };
+		972AE6D72BCB20A100F078B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		EEB1AF5D2BC65A930053526E /* ThruHiker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ThruHiker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEB1AF602BC65A930053526E /* ThruHikerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThruHikerApp.swift; sourceTree = "<group>"; };
 		EEB1AF622BC65A930053526E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -51,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				970EE6022BCB22C900BA8245 /* MapboxMaps in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +99,8 @@
 		EEB1AF5F2BC65A930053526E /* ThruHiker */ = {
 			isa = PBXGroup;
 			children = (
+				970EF7A92BCB683000BA8245 /* Sorted_PCT_Miles.json */,
+				972AE6D72BCB20A100F078B7 /* Info.plist */,
 				EEB1AF602BC65A930053526E /* ThruHikerApp.swift */,
 				EEB1AF622BC65A930053526E /* ContentView.swift */,
 				EEB1AF642BC65A940053526E /* Assets.xcassets */,
@@ -143,6 +150,9 @@
 			dependencies = (
 			);
 			name = ThruHiker;
+			packageProductDependencies = (
+				970EE6012BCB22C900BA8245 /* MapboxMaps */,
+			);
 			productName = ThruHiker;
 			productReference = EEB1AF5D2BC65A930053526E /* ThruHiker.app */;
 			productType = "com.apple.product-type.application";
@@ -215,6 +225,9 @@
 				Base,
 			);
 			mainGroup = EEB1AF542BC65A930053526E;
+			packageReferences = (
+				970EE6002BCB22C900BA8245 /* XCRemoteSwiftPackageReference "mapbox-maps-ios" */,
+			);
 			productRefGroup = EEB1AF5E2BC65A930053526E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -232,6 +245,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EEB1AF682BC65A940053526E /* Preview Assets.xcassets in Resources */,
+				970EF7AA2BCB683000BA8245 /* Sorted_PCT_Miles.json in Resources */,
 				EEB1AF652BC65A940053526E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -422,14 +436,16 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ThruHiker/Preview Content\"";
-				DEVELOPMENT_TEAM = 5Z52B45CFP;
+				DEVELOPMENT_TEAM = P8B6Y7T9NR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ThruHiker/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -451,14 +467,16 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ThruHiker/Preview Content\"";
-				DEVELOPMENT_TEAM = 5Z52B45CFP;
+				DEVELOPMENT_TEAM = P8B6Y7T9NR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ThruHiker/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -588,6 +606,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		970EE6002BCB22C900BA8245 /* XCRemoteSwiftPackageReference "mapbox-maps-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mapbox/mapbox-maps-ios.git";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 11.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		970EE6012BCB22C900BA8245 /* MapboxMaps */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 970EE6002BCB22C900BA8245 /* XCRemoteSwiftPackageReference "mapbox-maps-ios" */;
+			productName = MapboxMaps;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = EEB1AF552BC65A930053526E /* Project object */;
 }
