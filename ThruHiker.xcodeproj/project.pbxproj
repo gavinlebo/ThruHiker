@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		970EE6022BCB22C900BA8245 /* MapboxMaps in Frameworks */ = {isa = PBXBuildFile; productRef = 970EE6012BCB22C900BA8245 /* MapboxMaps */; };
-		970EF7AA2BCB683000BA8245 /* Sorted_PCT_Miles.json in Resources */ = {isa = PBXBuildFile; fileRef = 970EF7A92BCB683000BA8245 /* Sorted_PCT_Miles.json */; };
+		970EF7AE2BCBB8CD00BA8245 /* Sorted_PCT_Miles.json in Resources */ = {isa = PBXBuildFile; fileRef = 970EF7AD2BCBB8CD00BA8245 /* Sorted_PCT_Miles.json */; };
 		EEB1AF612BC65A930053526E /* ThruHikerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB1AF602BC65A930053526E /* ThruHikerApp.swift */; };
 		EEB1AF632BC65A930053526E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB1AF622BC65A930053526E /* ContentView.swift */; };
 		EEB1AF652BC65A940053526E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EEB1AF642BC65A940053526E /* Assets.xcassets */; };
@@ -36,7 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		970EF7A92BCB683000BA8245 /* Sorted_PCT_Miles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Sorted_PCT_Miles.json; sourceTree = "<group>"; };
+		970EF7AD2BCBB8CD00BA8245 /* Sorted_PCT_Miles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Sorted_PCT_Miles.json; sourceTree = "<group>"; };
 		972AE6D72BCB20A100F078B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		EEB1AF5D2BC65A930053526E /* ThruHiker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ThruHiker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEB1AF602BC65A930053526E /* ThruHikerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThruHikerApp.swift; sourceTree = "<group>"; };
@@ -99,7 +99,7 @@
 		EEB1AF5F2BC65A930053526E /* ThruHiker */ = {
 			isa = PBXGroup;
 			children = (
-				970EF7A92BCB683000BA8245 /* Sorted_PCT_Miles.json */,
+				970EF7AD2BCBB8CD00BA8245 /* Sorted_PCT_Miles.json */,
 				972AE6D72BCB20A100F078B7 /* Info.plist */,
 				EEB1AF602BC65A930053526E /* ThruHikerApp.swift */,
 				EEB1AF622BC65A930053526E /* ContentView.swift */,
@@ -245,7 +245,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EEB1AF682BC65A940053526E /* Preview Assets.xcassets in Resources */,
-				970EF7AA2BCB683000BA8245 /* Sorted_PCT_Miles.json in Resources */,
+				970EF7AE2BCBB8CD00BA8245 /* Sorted_PCT_Miles.json in Resources */,
 				EEB1AF652BC65A940053526E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
