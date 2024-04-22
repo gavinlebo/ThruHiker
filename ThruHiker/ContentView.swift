@@ -4,7 +4,14 @@ import HealthKit
 struct ContentView: View {
     @State private var steps: Int = 0
     @State private var distance: Double = 0.0
-    
+    private var healthStore: HKHealthStore?
+
+    init() {
+        if HKHealthStore.isHealthDataAvailable() {
+            healthStore = HKHealthStore()
+        }
+    }
+
     var body: some View {
         TabView {
             VStack {
@@ -12,7 +19,6 @@ struct ContentView: View {
                     .imageScale(.large)
                     .foregroundStyle(.tint)
                 Text("thru-hiker!")
-                Text("TEST")
             }
             .tabItem {
                 Label("Home", systemImage: "house")
@@ -26,24 +32,69 @@ struct ContentView: View {
                 Label("Health", systemImage: "heart.text.square")
             }
             .onAppear {
-                // Fetch health data when this tab is shown
                 requestHealthData()
             }
         }
         .padding()
     }
     
-    // HealthKit setup and data request here
     private func requestHealthData() {
-        // Make sure HealthKit is set up and authorized before proceeding
-        // Fetch steps and distance data and update state variables
+        guard let healthStore = healthStore else { return }
+
+        let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount)!
+        let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning)!
+
+        let allTypes = Set([stepType, distanceType])
+
+        healthStore.requestAuthorization(toShare: nil, read: allTypes) { success, error in
+            if success {
+                fetchStepsAndDistance()
+            } else if let error = error {
+                print("Authorization failed with error: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    private func fetchStepsAndDistance() {
+        guard let healthStore = healthStore else { return }
+
+        let stepsType = HKQuantityType.quantityType(forIdentifier: .stepCount)!
+        let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning)!
+
+        let now = Date()
+        let startOfDay = Calendar.current.startOfDay(for: now)
+        let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: now, options: .strictStartDate)
+
+        let stepsQuery = HKStatisticsQuery(quantityType: stepsType, quantitySamplePredicate: predicate, options: .cumulativeSum) { _, result, _ in
+            DispatchQueue.main.async {
+                if let result = result, let sum = result.sumQuantity() {
+                    self.steps = Int(sum.doubleValue(for: HKUnit.count()))
+                }
+            }
+        }
+
+        let distanceQuery = HKStatisticsQuery(quantityType: distanceType, quantitySamplePredicate: predicate, options: .cumulativeSum) { _, result, _ in
+            DispatchQueue.main.async {
+                if let result = result, let sum = result.sumQuantity() {
+                    self.distance = sum.doubleValue(for: HKUnit.mile())
+                }
+            }
+        }
+
+        healthStore.execute(stepsQuery)
+        healthStore.execute(distanceQuery)
     }
 }
 
-// Preview struct
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView().previewDisplayName("Content View")
+        MockContentView().previewDisplayName("Mock Content View")
     }
 }
 
+struct MockContentView: View {
+    var body: some View {
+        Text("Mock Content View")
+    }
+}
