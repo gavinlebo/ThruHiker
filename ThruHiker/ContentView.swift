@@ -15,7 +15,12 @@ import Foundation
 
 
 
-
+struct MileMarker: Codable {
+    let mile: Double
+    let sectionName: String
+    let long: Double
+    let lat: Double
+}
 
 
 
@@ -24,68 +29,42 @@ import Foundation
 struct ContentView: View {
     
     
-    func loadJSON(from filename: String) -> Data? {
-        guard let path = Bundle.main.path(forResource: filename, ofType: "json") else {
-            print("Failed to locate \(filename).json in bundle.")
-            return nil
-        }
-
-        do {
-            let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-            return data
-        } catch {
-            print("Failed to load \(filename).json:", error)
-            return nil
-        }
-    }
     
-    func parseJSON(data: Data) -> [String: Any]? {
-        do {
-            // make sure this JSON is in the format we expect
-            let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]{
-                if let names = json["Mile"] as? [String] {
-                    print(names)
-                }
-            }
-                // try to read out a string array
-            
-            
-        } catch let error as NSError {
-            print("Failed to load: \(error.localizedDescription)")
-            return nil
-        }
-    }
-    
-    
-    
-    func getLatLong(for mile: Double) -> (Double, Double)? {
-        let currentDirectoryURL = FileManager.default.currentDirectoryPath
-        print("Current directory: \(currentDirectoryURL)")
-        
-        if let jsonData = loadJSON(from: "Sorted_PCT_Miles"), let parsedData = parseJSON(data: jsonData) {
-            print(parsedData)
-            print("dataa\n")
-//            for data in parsedData {
-//                if let mileValue = data["Lat"] as? Double,
-//                   let latitude = data["Lat"] as? Double,
-//                   let longitude = data["Long"] as? Double,
-//                   mileValue == mile {
-//                    return (latitude, longitude)
-//                }
-//            }
-        } else {
-            print("Failed to load or parse JSON.")
-        }
-        return nil
-    }
     
     @State private var latitude: Double = 0.0
     @State private var longitude: Double = 0.0
-    @State private var miles: Double = 700
+    @State private var Mile: Double = 700
+    
+    
+    func loadMiles(from jsonFileName: String) -> [MileMarker]? {
+        guard let jsonFilePath = Bundle.main.path(forResource: jsonFileName, ofType: "json") else {
+            print("JSON not found")
+            return nil
+        }
+        
+        let fileUrl = URL(fileURLWithPath: jsonFilePath)
+        do {
+            let jsonData = try Data(contentsOf: fileUrl)
+            return try JSONDecoder().decode([MileMarker].self, from: jsonData)
+        } catch {
+            print("Error loading JSON2")
+            return nil
+        }
+    }
+    
+    func getCoord(coordMile mile: Double, with data: [MileMarker]) {
+        let roundedMile = (mile * 2).rounded(.down) / 2
+        if let marker = data.first(where: { $0.mile == roundedMile }) {
+            self.longitude = marker.long
+            self.latitude = marker.lat
+        }
+    }
+    
+    
     
     var body: some View {
         Map(){
-            CircleAnnotation(centerCoordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
+            CircleAnnotation(centerCoordinate: CLLocationCoordinate2D(latitude: 36.71420320000004, longitude: -118.36878639999998))
                 .circleColor(StyleColor(.systemBlue))
                 .circleRadius(7)
                 .circleStrokeColor(StyleColor(.white))
@@ -95,15 +74,13 @@ struct ContentView: View {
         .mapStyle(MapStyle(uri: StyleURI(rawValue: "mapbox://styles/gavinlebo/cluz1mqk2005n01q17kxdbgcl")!))
         .ignoresSafeArea()
         .onAppear(){
-            if let latLong = getLatLong(for: miles) {
-                latitude = latLong.0
-                longitude = latLong.1
+            if let mileMarkers = loadMiles(from: "Sorted_PCT_Miles") {
+                getCoord(coordMile: Mile, with: mileMarkers)
             } else {
-                print("Latitude and Longitude not found for the given mile.")
+                print("Error loading JSON")
             }
-        }
             
-        
+        }
     }
 }
 
