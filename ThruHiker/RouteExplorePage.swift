@@ -12,21 +12,23 @@ struct RouteExplorePage: View {
     
     var body: some View {
         VStack {
-            Text("Explore")
+            Text("Explore ThruHikes")
                 .font(.title)
                 .bold()
+                .padding(.horizontal)
             
-            TextField("Search ThruHikes", text: $searchText)
+            TextField("Search", text: $searchText)
                 .padding(10)
                 .background(Color(.lightGray))
                 .cornerRadius(10)
                 .padding(.horizontal)
+                .padding(.bottom, 10)
             
             ScrollView {
                 LazyVStack(spacing: 20) {
-                ForEach(filteredRoutes(), id: \.name) { route in
+                ForEach(searchedRoutes(), id: \.name) { route in
                 RouteCardView(route: route)
-                        .padding()
+                        .padding(5)
                         .cornerRadius(15)
                         .shadow(radius: 5)
                     }
@@ -36,7 +38,7 @@ struct RouteExplorePage: View {
         }
     }
     
-    func filteredRoutes() -> [Route] {
+    func searchedRoutes() -> [Route] {
             if searchText.isEmpty {
                 return routes
             } else {
