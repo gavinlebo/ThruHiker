@@ -1,25 +1,49 @@
-//
+
 //  ContentView.swift
 //  ThruHiker
 //
-//  Created by Kai Linsley on 4/9/24.
+//  Created by Taylor Yee on 4/14/24.
 //
+
+
 
 import SwiftUI
 
 struct ContentView: View {
+    @State private var long: Double?
+    @State private var lat: Double?
+    private var mileValueToDisplay: Double = 2 //placeholder value
+
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("thru-hiker!")
-            Text("TEST")
+            if let long = long, let lat = lat {
+                Text("Longitude: \(long)")
+                Text("Latitude: \(lat)")
+            } else {
+                Text("No coord found for mile value \(mileValueToDisplay)")
+            }
         }
-        .padding()
+        .onAppear {
+            if let (long, lat) = MileMarkers.getCoord(for: mileValueToDisplay) {
+                self.long = long
+                self.lat = lat
+            }
+        }
     }
 }
 
-#Preview {
-    ContentView()
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
 }
+
+
+
+
+
+
+
+
+
+
