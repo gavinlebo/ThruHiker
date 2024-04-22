@@ -1,9 +1,11 @@
-//
+
 //  ContentView.swift
 //  ThruHiker
 //
-//  Created by Kai Linsley on 4/9/24.
+//  Created by Taylor Yee on 4/14/24.
 //
+
+
 
 import SwiftUI
 @_spi(Experimental) import MapboxMaps
@@ -84,6 +86,18 @@ struct ContentView: View {
     }
 }
 
-#Preview {
-    ContentView()
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
 }
+
+
+
+
+
+
+
+
+
+
