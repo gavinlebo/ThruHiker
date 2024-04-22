@@ -14,6 +14,8 @@
 		EEB1AF722BC65A940053526E /* ThruHikerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB1AF712BC65A940053526E /* ThruHikerTests.swift */; };
 		EEB1AF7C2BC65A940053526E /* ThruHikerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB1AF7B2BC65A940053526E /* ThruHikerUITests.swift */; };
 		EEB1AF7E2BC65A940053526E /* ThruHikerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB1AF7D2BC65A940053526E /* ThruHikerUITestsLaunchTests.swift */; };
+		EEB1AF8B2BD0D1A80053526E /* RouteCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB1AF8A2BD0D1A80053526E /* RouteCardView.swift */; };
+		EEB1AF8D2BD4D49E0053526E /* sampleRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB1AF8C2BD4D49E0053526E /* sampleRoutes.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +46,8 @@
 		EEB1AF772BC65A940053526E /* ThruHikerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ThruHikerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEB1AF7B2BC65A940053526E /* ThruHikerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThruHikerUITests.swift; sourceTree = "<group>"; };
 		EEB1AF7D2BC65A940053526E /* ThruHikerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThruHikerUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		EEB1AF8A2BD0D1A80053526E /* RouteCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteCardView.swift; sourceTree = "<group>"; };
+		EEB1AF8C2BD4D49E0053526E /* sampleRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sampleRoutes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +100,8 @@
 			children = (
 				EEB1AF602BC65A930053526E /* ThruHikerApp.swift */,
 				EEB1AF622BC65A930053526E /* ContentView.swift */,
+				EEB1AF8A2BD0D1A80053526E /* RouteCardView.swift */,
+				EEB1AF8C2BD4D49E0053526E /* sampleRoutes.swift */,
 				EEB1AF642BC65A940053526E /* Assets.xcassets */,
 				EEB1AF662BC65A940053526E /* Preview Content */,
 			);
@@ -257,6 +263,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EEB1AF8B2BD0D1A80053526E /* RouteCardView.swift in Sources */,
+				EEB1AF8D2BD4D49E0053526E /* sampleRoutes.swift in Sources */,
 				EEB1AF632BC65A930053526E /* ContentView.swift in Sources */,
 				EEB1AF612BC65A930053526E /* ThruHikerApp.swift in Sources */,
 			);

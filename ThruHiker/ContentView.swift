@@ -9,17 +9,24 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("thru-hiker!")
-            Text("TEST")
+        ScrollView {
+            LazyVStack(spacing: 20) {
+                ForEach(routes, id: \.name) { route in
+                    RouteCardView(route: route)
+                        .padding()
+                        .cornerRadius(15)
+                        .shadow(radius: 5)
+                }
+            }
+            .padding()
         }
-        .padding()
     }
 }
 
-#Preview {
-    ContentView()
+
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
 }
