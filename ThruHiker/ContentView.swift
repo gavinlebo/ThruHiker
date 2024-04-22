@@ -2,32 +2,59 @@
 //  ContentView.swift
 //  ThruHiker
 //
-//  Created by Taylor Yee on 4/14/24.
 //
 
 
 
 import SwiftUI
+@_spi(Experimental) import MapboxMaps
+
+
+import Foundation
+
+// Define the JSON data as an array of dictionaries
+
+
+
+
+
 
 struct ContentView: View {
-    @State private var long: Double?
-    @State private var lat: Double?
-    private var mileValueToDisplay: Double = 2 //placeholder value
-
+    
+    
+    
+    
+    @State private var latitude: Double = 0.0
+    @State private var longitude: Double = 0.0
+    @State private var Mile: Double = 1000
+    
+    
+    
+    
+    
+    
     var body: some View {
-        VStack {
-            if let long = long, let lat = lat {
-                Text("Longitude: \(long)")
-                Text("Latitude: \(lat)")
-            } else {
-                Text("No coord found for mile value \(mileValueToDisplay)")
-            }
+        Map(){
+            CircleAnnotation(centerCoordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
+                .circleColor(StyleColor(.systemBlue))
+                .circleRadius(7)
+                .circleStrokeColor(StyleColor(.white))
+                .circleStrokeWidth(1)
+            
         }
-        .onAppear {
-            if let (long, lat) = MileMarkers.getCoord(for: mileValueToDisplay) {
-                self.long = long
-                self.lat = lat
+        .mapStyle(MapStyle(uri: StyleURI(rawValue: "mapbox://styles/gavinlebo/cluz1mqk2005n01q17kxdbgcl")!))
+        .ignoresSafeArea()
+        .onAppear(){
+            print("on appear")
+            if let (long, lat) = MileMarkers.getCoord(for: Mile) {
+                print("in if")
+                self.longitude = long
+                self.latitude = lat
+                print(long)
+                print(lat)
             }
+            
+            
         }
     }
 }
