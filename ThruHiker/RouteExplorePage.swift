@@ -19,10 +19,11 @@ struct RouteExplorePage: View {
             
             TextField("Search", text: $searchText)
                 .padding(10)
-                .background(Color(.lightGray))
+                .background(Color("lightBrown"))
                 .cornerRadius(10)
                 .padding(.horizontal)
                 .padding(.bottom, 10)
+                .shadow(radius: 20)
             
             ScrollView {
                 LazyVStack(spacing: 20) {
@@ -36,6 +37,7 @@ struct RouteExplorePage: View {
                 .padding()
             }
         }
+        .background(Color("softGreen"))
     }
     
     func searchedRoutes() -> [Route] {

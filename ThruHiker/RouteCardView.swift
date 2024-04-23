@@ -27,7 +27,7 @@ struct RouteCardView: View {
                 .foregroundColor(.white)
             }
             .padding()
-            .background(Color("buttonBackground"))
+            .background(Color("darkerBrown"))
             .cornerRadius(10)
             .shadow(radius: 5)
             .padding(.bottom, 10)
@@ -40,7 +40,7 @@ struct RouteCardView: View {
                         .foregroundColor(.white)
                         .padding(.horizontal, 20)
                         .padding(.vertical, 10)
-                        .background(Color.blue)
+                        .background(Color(.brown))
                         .cornerRadius(10)
                 }
                 Button(action: {
@@ -50,14 +50,14 @@ struct RouteCardView: View {
                         .foregroundColor(.white)
                         .padding(.horizontal, 20)
                         .padding(.vertical, 10)
-                        .background(Color.orange)
+                        .background(Color("dustyCedar"))
                         .cornerRadius(10)
                 }
             }
             .padding(.horizontal)
         }
         .padding()
-        .background(Color("routeBackground"))
+        .background(Color("lightBrown"))
         .cornerRadius(15)
         .shadow(radius: 5)
     }
