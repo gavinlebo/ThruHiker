@@ -4,11 +4,18 @@
 //
 //  Created by Kai Linsley on 4/23/24.
 //
-/*
+
 import SwiftUI
-@_spi(Experimental) import MapboxMaps
+import MapKit
+//@_spi(Experimental) import MapboxMaps
 
+struct RouteView: View {
+    var body: some View {
+        Map()
+    }
+}
 
+/*
 struct RouteView: View {
      @State private var latitude: Double = 0.0
      @State private var longitude: Double = 0.0
@@ -39,8 +46,8 @@ struct RouteView: View {
          }
      }
 }
-
+*/
 #Preview {
     RouteView()
 }
-*/
+

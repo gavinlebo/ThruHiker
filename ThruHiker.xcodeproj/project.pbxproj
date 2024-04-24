@@ -17,6 +17,10 @@
 		EEB1AF8B2BD0D1A80053526E /* RouteCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB1AF8A2BD0D1A80053526E /* RouteCardView.swift */; };
 		EEB1AF8D2BD4D49E0053526E /* sampleRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB1AF8C2BD4D49E0053526E /* sampleRoutes.swift */; };
 		EEB1AF8F2BD6EC420053526E /* RouteExplorePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB1AF8E2BD6EC420053526E /* RouteExplorePage.swift */; };
+		EEFB6C812BD859E8007B6210 /* RouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFB6C802BD859E8007B6210 /* RouteView.swift */; };
+		EEFB6C852BD86002007B6210 /* DistanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFB6C842BD86002007B6210 /* DistanceView.swift */; };
+		EEFB6C872BD862B9007B6210 /* RouteCardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFB6C862BD862B9007B6210 /* RouteCardDetailView.swift */; };
+		EEFB6C892BD864E7007B6210 /* MapPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFB6C882BD864E7007B6210 /* MapPreview.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +54,10 @@
 		EEB1AF8A2BD0D1A80053526E /* RouteCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteCardView.swift; sourceTree = "<group>"; };
 		EEB1AF8C2BD4D49E0053526E /* sampleRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sampleRoutes.swift; sourceTree = "<group>"; };
 		EEB1AF8E2BD6EC420053526E /* RouteExplorePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteExplorePage.swift; sourceTree = "<group>"; };
+		EEFB6C802BD859E8007B6210 /* RouteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteView.swift; sourceTree = "<group>"; };
+		EEFB6C842BD86002007B6210 /* DistanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceView.swift; sourceTree = "<group>"; };
+		EEFB6C862BD862B9007B6210 /* RouteCardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteCardDetailView.swift; sourceTree = "<group>"; };
+		EEFB6C882BD864E7007B6210 /* MapPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPreview.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +88,7 @@
 		EEB1AF542BC65A930053526E = {
 			isa = PBXGroup;
 			children = (
+				EEFB6C882BD864E7007B6210 /* MapPreview.swift */,
 				EEB1AF5F2BC65A930053526E /* ThruHiker */,
 				EEB1AF702BC65A940053526E /* ThruHikerTests */,
 				EEB1AF7A2BC65A940053526E /* ThruHikerUITests */,
@@ -100,10 +109,13 @@
 		EEB1AF5F2BC65A930053526E /* ThruHiker */ = {
 			isa = PBXGroup;
 			children = (
+				EEFB6C802BD859E8007B6210 /* RouteView.swift */,
+				EEFB6C842BD86002007B6210 /* DistanceView.swift */,
 				EEB1AF8E2BD6EC420053526E /* RouteExplorePage.swift */,
 				EEB1AF602BC65A930053526E /* ThruHikerApp.swift */,
 				EEB1AF622BC65A930053526E /* ContentView.swift */,
 				EEB1AF8A2BD0D1A80053526E /* RouteCardView.swift */,
+				EEFB6C862BD862B9007B6210 /* RouteCardDetailView.swift */,
 				EEB1AF8C2BD4D49E0053526E /* sampleRoutes.swift */,
 				EEB1AF642BC65A940053526E /* Assets.xcassets */,
 				EEB1AF662BC65A940053526E /* Preview Content */,
@@ -268,8 +280,12 @@
 			files = (
 				EEB1AF8B2BD0D1A80053526E /* RouteCardView.swift in Sources */,
 				EEB1AF8F2BD6EC420053526E /* RouteExplorePage.swift in Sources */,
+				EEFB6C852BD86002007B6210 /* DistanceView.swift in Sources */,
+				EEFB6C872BD862B9007B6210 /* RouteCardDetailView.swift in Sources */,
 				EEB1AF8D2BD4D49E0053526E /* sampleRoutes.swift in Sources */,
+				EEFB6C892BD864E7007B6210 /* MapPreview.swift in Sources */,
 				EEB1AF632BC65A930053526E /* ContentView.swift in Sources */,
+				EEFB6C812BD859E8007B6210 /* RouteView.swift in Sources */,
 				EEB1AF612BC65A930053526E /* ThruHikerApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

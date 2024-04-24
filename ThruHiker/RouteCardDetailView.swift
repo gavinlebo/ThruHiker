@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct RouteCardDetailView: View {
+    
+    var route: Route
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text("Some details about \(route.name), a ThruHiker supported trail.")
     }
 }
 
 #Preview {
-    RouteCardDetailView()
+    RouteCardDetailView(route: routes[1])
 }
