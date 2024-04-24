@@ -13,7 +13,7 @@ struct RouteCardView: View {
     var body: some View {
             ZStack {
                 VStack(spacing: 10) {
-                    MapPreview()
+                    MapPreview(route: routes[1])
                         .frame(height: 150)
                         .cornerRadius(10)
 

@@ -109,11 +109,11 @@
 		EEB1AF5F2BC65A930053526E /* ThruHiker */ = {
 			isa = PBXGroup;
 			children = (
-				EEFB6C802BD859E8007B6210 /* RouteView.swift */,
 				EEFB6C842BD86002007B6210 /* DistanceView.swift */,
-				EEB1AF8E2BD6EC420053526E /* RouteExplorePage.swift */,
 				EEB1AF602BC65A930053526E /* ThruHikerApp.swift */,
 				EEB1AF622BC65A930053526E /* ContentView.swift */,
+				EEFB6C802BD859E8007B6210 /* RouteView.swift */,
+				EEB1AF8E2BD6EC420053526E /* RouteExplorePage.swift */,
 				EEB1AF8A2BD0D1A80053526E /* RouteCardView.swift */,
 				EEFB6C862BD862B9007B6210 /* RouteCardDetailView.swift */,
 				EEB1AF8C2BD4D49E0053526E /* sampleRoutes.swift */,

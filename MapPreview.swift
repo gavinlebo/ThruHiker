@@ -9,6 +9,7 @@ import SwiftUI
 import MapKit
 
 struct MapPreview: View {
+    var route: Route
     var body: some View {
         Map()
             .border(.darkerBrown, width: 5)
@@ -16,5 +17,5 @@ struct MapPreview: View {
 }
 
 #Preview {
-    MapPreview()
+    MapPreview(route: routes[0])
 }

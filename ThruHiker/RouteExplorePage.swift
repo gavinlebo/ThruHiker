@@ -42,15 +42,15 @@ struct RouteExplorePage: View {
         }
     }
     
-    func searchedRoutes() -> [Route] {
-            if searchText.isEmpty {
-                return routes
-            } else {
-                return routes.filter {
-                    $0.name.localizedCaseInsensitiveContains(searchText)
-                }
+    private func searchedRoutes() -> [Route] {
+        if searchText.isEmpty {
+            return routes
+        } else {
+            return routes.filter {
+                $0.name.localizedCaseInsensitiveContains(searchText)
             }
         }
+    }
 }
 
 #Preview {
