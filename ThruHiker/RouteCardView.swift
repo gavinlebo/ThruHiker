@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct RouteCardView: View {
     let route: Route
@@ -13,7 +14,7 @@ struct RouteCardView: View {
     var body: some View {
             ZStack {
                 VStack(spacing: 10) {
-                    MapPreview(route: routes[1])
+                    Map()
                         .frame(height: 150)
                         .cornerRadius(10)
 

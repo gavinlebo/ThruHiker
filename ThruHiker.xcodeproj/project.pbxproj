@@ -20,7 +20,6 @@
 		EEFB6C812BD859E8007B6210 /* RouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFB6C802BD859E8007B6210 /* RouteView.swift */; };
 		EEFB6C852BD86002007B6210 /* DistanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFB6C842BD86002007B6210 /* DistanceView.swift */; };
 		EEFB6C872BD862B9007B6210 /* RouteCardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFB6C862BD862B9007B6210 /* RouteCardDetailView.swift */; };
-		EEFB6C892BD864E7007B6210 /* MapPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFB6C882BD864E7007B6210 /* MapPreview.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,7 +56,6 @@
 		EEFB6C802BD859E8007B6210 /* RouteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteView.swift; sourceTree = "<group>"; };
 		EEFB6C842BD86002007B6210 /* DistanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceView.swift; sourceTree = "<group>"; };
 		EEFB6C862BD862B9007B6210 /* RouteCardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteCardDetailView.swift; sourceTree = "<group>"; };
-		EEFB6C882BD864E7007B6210 /* MapPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPreview.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,7 +86,6 @@
 		EEB1AF542BC65A930053526E = {
 			isa = PBXGroup;
 			children = (
-				EEFB6C882BD864E7007B6210 /* MapPreview.swift */,
 				EEB1AF5F2BC65A930053526E /* ThruHiker */,
 				EEB1AF702BC65A940053526E /* ThruHikerTests */,
 				EEB1AF7A2BC65A940053526E /* ThruHikerUITests */,
@@ -283,7 +280,6 @@
 				EEFB6C852BD86002007B6210 /* DistanceView.swift in Sources */,
 				EEFB6C872BD862B9007B6210 /* RouteCardDetailView.swift in Sources */,
 				EEB1AF8D2BD4D49E0053526E /* sampleRoutes.swift in Sources */,
-				EEFB6C892BD864E7007B6210 /* MapPreview.swift in Sources */,
 				EEB1AF632BC65A930053526E /* ContentView.swift in Sources */,
 				EEFB6C812BD859E8007B6210 /* RouteView.swift in Sources */,
 				EEB1AF612BC65A930053526E /* ThruHikerApp.swift in Sources */,
