@@ -7,6 +7,7 @@
 
 import SwiftUI
 import MapKit
+import Foundation
 
 struct RouteCardView: View {
     let route: Route
