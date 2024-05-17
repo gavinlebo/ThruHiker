@@ -1,52 +1,36 @@
-//
-//  JSONmanager.swift
-//  ThruHiker
-//
-//  Created by Taylor Yee on 4/15/24.
-//
+// JSONManager.swift
 
 import Foundation
-
-
-
-struct MileMarkers: Codable{
-    let Section_Na: String
-    let Mile:Double
-    let Long,Lat:Double
-    
-    static let allMiles: [MileMarkers] = Bundle.main.decode(file: "example2.json") //placeholder JSON
-    
-    static func getCoord(for mile: Double) -> (Long: Double, Lat: Double)? {
-        
-            let roundedMile = (mile * 2).rounded(.down) / 2
-            if let marker = allMiles.first(where: { $0.Mile == roundedMile }) {
-                return (marker.Long, marker.Lat)
-            }
-            return nil
-        }
-    
+struct MileMarker: Codable {
+    let Mile: Double
+    let Long: Double
+    let Lat: Double
 }
 
-
-extension Bundle {
-    func decode<T: Decodable>(file: String) -> T {
-        guard let url = self.url(forResource: file, withExtension: nil) else {
-            fatalError("Could not find \(file) in bundle.")
+struct JSONManager {
+    static func loadMileMarkers(from file: String) -> [MileMarker] {
+        guard let url = Bundle.main.url(forResource: file, withExtension: "json") else {
+            fatalError("Could not find \(file).json in bundle.")
         }
         
-        guard let data = try? Data(contentsOf: url) else {
-            fatalError("Could not load \(file) from bundle.")
+        do {
+            let data = try Data(contentsOf: url)
+            let decoder = JSONDecoder()
+            let mileMarkers = try decoder.decode([MileMarker].self, from: data)
+            return mileMarkers
+        } catch {
+            fatalError("Failed to load mile markers from \(file).json: \(error.localizedDescription)")
+        }
+    }
+    
+    static func getCoord(for mile: Double, from file: String) -> (Long: Double, Lat: Double)? {
+        let roundedMile = (mile * 2).rounded(.down) / 2
+        let mileMarkers = loadMileMarkers(from: file)
+        
+        if let marker = mileMarkers.first(where: { $0.Mile == roundedMile }) {
+            return (marker.Long, marker.Lat)
         }
         
-        let decoder = JSONDecoder()
-        
-        guard let loadedData = try? decoder.decode(T.self, from: data) else {
-            fatalError("Could not decode \(file) from bundle.")
-        }
-        
-        return loadedData
+        return nil
     }
 }
-
-
-
