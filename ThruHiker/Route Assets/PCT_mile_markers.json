@@ -1,5 +1,11 @@
 [
     {
+        "Mile": 0.0,
+        "Section_Na": "CA Section A Mile Marker",
+        "Long": -116.46698,
+        "Lat": 32.58974
+    },
+    {
         "Mile": 0.5,
         "Section_Na": "CA Section A Mile Marker",
         "Long": -116.46669635999996,
