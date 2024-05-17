@@ -14,7 +14,9 @@ struct MapView: View {
     
     //@Binding var sharedState: SharedState
     @Binding var route: Route
+    
     @State private var showSheet = false
+    @State private var showPopover = false
     
     @StateObject var viewModel = WeatherViewModel()
     
@@ -33,6 +35,7 @@ struct MapView: View {
                     .circleStrokeWidth(1)
                 
             }
+            
             .mapStyle(MapStyle(uri: StyleURI(rawValue: route.mapURL)!))
             .ignoresSafeArea()
             .onAppear {
@@ -108,18 +111,126 @@ struct MapView: View {
             
             
             
+//            Button {
+//                showSheet.toggle()
+//            } label: {
+//                Image(systemName: "photo.fill.on.rectangle.fill")
+//                    .resizable()
+//                    .backgroundStyle(.white)
+//                    .frame(width: 70, height: 70)  // Adjust the width and height as needed
+//                    //.foregroundColor(.red)
+//            }.offset(y: 320)
+//            .sheet(isPresented: $showSheet) {
+//                SheetView(latitude: latitude, longitude: longitude) // Example coordinates for San Francisco
+//            }
             Button {
-                print("hello")
                 showSheet.toggle()
             } label: {
-                Image(systemName: "photo.on.rectangle")
+                Image(systemName: "photo.fill.on.rectangle.fill")
                     .resizable()
-                    .frame(width: 50, height: 50)  // Adjust the width and height as needed
-                    //.foregroundColor(.red)
-            }.offset(y: 340)
+                    .foregroundStyle(.blue)
+                    .frame(width: 70, height: 70) // Adjust the frame size to make it smaller
+                    .padding(10) // Add padding to create space around the image
+            }
+            
+            .offset(y: 320)
             .sheet(isPresented: $showSheet) {
-                    SheetView(latitude: latitude, longitude: longitude) // Example coordinates for San Francisco
-                }
+                SheetView(latitude: latitude, longitude: longitude) // Example coordinates for San Francisco
+            }
+            
+            
+            
+            Button {
+                showPopover.toggle()
+            } label: {
+                Image(systemName: "chart.bar.xaxis")
+                    .resizable()
+                    .foregroundStyle(.blue, .black)
+                    .frame(width: 50, height: 50) // Adjust the frame size to make it smaller
+                    .padding(10) // Add padding to create space around the image
+            }
+            .background(
+                RoundedRectangle(cornerRadius: 15)
+                    .fill(Color("lightBrown"))
+                    .frame(width: 70, height: 70) // Set the frame size for the background
+            )
+            .offset(x: 150, y: 320)
+            
+            if showPopover {
+                            Color.black.opacity(0.4) // Optional: dim background
+                                .edgesIgnoringSafeArea(.all)
+                                .onTapGesture {
+                                    showPopover = false
+                                }
+
+                            VStack {
+                                
+                                VStack {
+                                    HStack {
+                                        Spacer()
+                                        Button(action: {
+                                            showPopover = false
+                                        }) {
+                                            Image(systemName: "xmark")
+                                                .foregroundColor(.white)
+                                                .padding()
+                                                .frame(width: 30, height: 30)
+                                                .background(Color.red)
+                                                .clipShape(Circle())
+                                        }
+                                    }
+                                    .padding([.top, .trailing])
+
+                                    Text("Statistics")
+                                        .font(.title)
+                                        .bold()
+                                        .padding()
+                                    Text("Start Date: \(self.startDate)")
+                                    Text("Miles Completed: \(Int(self.Mile))")
+                                    Text("Miles Remaining: \(route.distance - Int(self.Mile))")
+                                    
+                                    Spacer()
+                                }
+                                .padding()
+                                .frame(width: 300, height: 300)
+                                .background(.softGreen)
+                                .cornerRadius(15)
+                                .shadow(radius: 10)
+                            }
+                            .transition(.scale)
+                        }
+//            if showPopover {
+//                            Color.black.opacity(0.4) // Optional: dim background
+//                                .edgesIgnoringSafeArea(.all)
+//                                .onTapGesture {
+//                                    showPopover = false
+//                                }
+//
+//                            VStack {
+//                                Text("Statistics")
+//                                    .font(.title)
+//                                    .bold()
+//                                    .padding()
+//                                Text("Start Date: \(self.startDate)")
+//                                Text("Miles Completed: \(Int(self.Mile))")
+//                                Text("Miles Remaining: \(route.distance - Int(self.Mile))")
+//                                
+//                                
+//                                //More statistics here
+//                                
+//                                Button("Close") {
+//                                    showPopover = false
+//                                }
+//                            }
+//                            .padding()
+//                            .frame(width: 300, height: 300)
+//                            .background(.softGreen)
+//                            .cornerRadius(15)
+//                            .shadow(radius: 10)
+//                            .transition(.scale)
+//                        }
+                
+            
             
             
             
@@ -145,7 +256,7 @@ struct MapView: View {
                     }
                     .onAppear {
                         viewModel.fetchWeather(lat: latitude, lon: longitude) // Example coordinates
-                    }.offset(x: 150, y: -360)
+                    }.offset(x: 140, y: -360)
         }
         
         
