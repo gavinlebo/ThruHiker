@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Route {
     let name: String
-    let distance: Double
+    var distance: Double
     let time: String
     let mapURL: String
     let mileMarkerFile: String

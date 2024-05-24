@@ -25,6 +25,9 @@ struct MapView: View {
     @State private var Mile: Double = 0.0
     @State var startDate: Date = Date()
     
+    @State var expectedEndDate: Date = Date()
+    @State var avgDistance: Double = 0.0
+    
     var body: some View {
         ZStack {
             Map(){
@@ -66,6 +69,8 @@ struct MapView: View {
                 
                 healthKitManager.queryDistanceWalked(from: self.startDate, route: route.name)
                 
+                healthKitManager.calculateDailyAverageDistance(from: self.startDate)
+                
     //            group.notify(queue: .main) {
     //                Mile = healthKitManager.distanceWalked
     //            }
@@ -99,6 +104,20 @@ struct MapView: View {
                 if Mile == Double(route.distance){
                     route.completed = true
                 }
+                
+                
+                avgDistance = healthKitManager.dailyAverageDistance
+                print("avgdistance: \(avgDistance)")
+                
+                
+                if avgDistance > 0.0{
+                    let daysRemaining = route.distance / avgDistance
+                    
+                    
+
+                    expectedEndDate = Calendar.current.date(byAdding: .day, value: Int(daysRemaining), to: Date())!
+                }
+                
                 
                 //Mile = healthKitManager.distanceWalked
                 
@@ -193,9 +212,10 @@ struct MapView: View {
                                     Text("Start Date: \(self.startDate)")
                                     Text("Miles Completed: \(Int(self.Mile))")
                                     Text("Miles Remaining: \(Int(route.distance - self.Mile))")
-                                    Text("Expected Finish: ")
-                                    Text("Miles today: ")
-                                    Text("Most miles in day: ")
+                                    Text("Average Distance: \(Int(self.avgDistance))")
+                                    Text("Expected Finish: \(self.expectedEndDate)")
+                                    //Text("Miles today: ")
+                                    //Text("Most miles in day: ")
                                     
                                     Spacer()
                                 }
@@ -265,6 +285,9 @@ struct MapView: View {
                     .onAppear {
                         viewModel.fetchWeather(lat: latitude, lon: longitude) // Example coordinates
                     }.offset(x: 140, y: -360)
+            progressBar(progress: $Mile, totalDistance: $route.distance)
+                            .frame(width: 10, height: 300)
+                            .offset(x: -170)
         }
         
         
@@ -595,7 +618,32 @@ struct FullScreenImageView: View {
     }
 }
 
+struct progressBar: View {
+    @Binding var progress: Double
+    @Binding var totalDistance: Double
 
+    var body: some View {
+        GeometryReader { geometry in
+            VStack {
+                Spacer()
+                ZStack(alignment: .trailing) {
+                    Rectangle()
+                        .fill(Color.blue)
+                        .frame(width: geometry.size.width, height: getProg(in: geometry.size))
+                    
+                }
+            }
+            .frame(width: geometry.size.width, height: geometry.size.height-7)
+            .background(Color.gray.opacity(0.9))
+            .cornerRadius(5)
+        }
+ 
+    }
+
+    private func getProg(in size: CGSize) -> CGFloat {
+        return size.height * CGFloat(progress / totalDistance)
+    }
+}
 
 
 
