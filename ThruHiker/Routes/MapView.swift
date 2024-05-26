@@ -7,10 +7,20 @@
 
 import SwiftUI
 @_spi(Experimental) import MapboxMaps
+import FirebaseFirestore
+//import FirebaseFirestoreSwift
+
+
+
+
+
 
 struct MapView: View {
     
+    
+    
     @EnvironmentObject var healthKitManager: HealthKitManager
+    @AppStorage("userName") private var userName: String?
     
     //@Binding var sharedState: SharedState
     @Binding var route: Route
@@ -24,9 +34,36 @@ struct MapView: View {
     @State private var longitude: Double = 0.0
     @State private var Mile: Double = 0.0
     @State var startDate: Date = Date()
+    @State var endDate: Date = Date()
     
     @State var expectedEndDate: Date = Date()
     @State var avgDistance: Double = 0.0
+    @State var stepsWalked: Double = 0.0
+    
+    //@State var userID: UUID = UUID()
+    
+    
+    
+    func saveToFirebase() {
+        let userID = UserDefaults.standard.string(forKey: "userID")
+        let db = Firestore.firestore()
+        let document = db.collection("routes")
+                         .document(route.name)
+                         .collection("users")
+                         .document(userID!)// Document ID is the name
+
+        document.setData([
+            "name": userName!,
+            "miles": Mile,
+            "avgDistance": avgDistance,
+            "startDate": self.startDate,
+            "completed": route.completed,
+            "expectedFinish": self.expectedEndDate,
+            "endDate": endDate
+        ])
+    }
+    
+    
     
     var body: some View {
         ZStack {
@@ -58,7 +95,7 @@ struct MapView: View {
                 viewModel.fetchWeather(lat: latitude, lon: longitude)
                 
                 if route.started == false{
-                    self.startDate = Calendar.current.date(byAdding: .month, value: -12, to: Date())!
+                    self.startDate = Calendar.current.date(byAdding: .month, value: 0, to: Date())!
                     route.started = true
                 }
                 else{
@@ -67,9 +104,9 @@ struct MapView: View {
                 }
                 print("start date: \(self.startDate)")
                 
-                healthKitManager.queryDistanceWalked(from: self.startDate, route: route.name)
-                
-                healthKitManager.calculateDailyAverageDistance(from: self.startDate)
+//                healthKitManager.queryDistanceWalked(from: self.startDate, route: route.name)
+//                
+//                healthKitManager.calculateDailyAverageDistance(from: self.startDate)
                 
     //            group.notify(queue: .main) {
     //                Mile = healthKitManager.distanceWalked
@@ -78,45 +115,120 @@ struct MapView: View {
                 
                 Mile = UserDefaults.standard.double(forKey: "\(route.name)Mile")
                 
-                var newDistance = 0.0
-                if (route.name == "Pacific Crest Trail"){
-                    newDistance = healthKitManager.PCTdistanceWalked
+                if route.completed == false{
+                    
+                    var newDistance = 0.0
+                    if route.name == "Pacific Crest Trail"{
+                        newDistance = healthKitManager.PCTdistanceWalked
+                        self.avgDistance = healthKitManager.PCTAvg
+                        self.stepsWalked = healthKitManager.PCTSteps
+                    }
+                    if route.name == "Appalachian Trail"{
+                        newDistance = healthKitManager.ATdistanceWalked
+                        self.avgDistance = healthKitManager.ATAvg
+                        self.stepsWalked = healthKitManager.ATSteps
+                    }
+                    if route.name == "John Muir Trail"{
+                        newDistance = healthKitManager.JMTdistanceWalked
+                        self.avgDistance = healthKitManager.JMTdAvg
+                        self.stepsWalked = healthKitManager.JMTdSteps
+                    }
+                    if route.name == "Everest Base Camp"{
+                        newDistance = healthKitManager.EverestdistanceWalked
+                        self.avgDistance = healthKitManager.EverestAvg
+                        self.stepsWalked = healthKitManager.EverestSteps
+                    }
+                    if route.name == "Continental Divide Trail"{
+                        newDistance = healthKitManager.CDdistanceWalked
+                        self.avgDistance = healthKitManager.CDAvg
+                        self.stepsWalked = healthKitManager.CDSteps
+                    }
+                    if route.name == "Tour du Mont Blanc"{
+                        newDistance = healthKitManager.TMBdistanceWalked
+                        self.avgDistance = healthKitManager.TMBAvg
+                        self.stepsWalked = healthKitManager.TMBSteps
+                    }
+                    //let newDistance = healthKitManager.distanceWalked
+                    
+                    
+                    if newDistance > Mile{
+                        Mile = newDistance
+                    }
+                    
+                    if avgDistance > 0.0{
+                        let daysRemaining = route.distance / avgDistance
+                        
+                        
+
+                        expectedEndDate = Calendar.current.date(byAdding: .day, value: Int(daysRemaining), to: Date())!
+                    }
+                    
+                    
+                    
                 }
-                if (route.name == "Appalachian Trail"){
-                    newDistance = healthKitManager.ATdistanceWalked
-                }
-                if (route.name == "John Muir Trail"){
-                    newDistance = healthKitManager.JMTdistanceWalked
-                }
+//                var newDistance = 0.0
+//                if route.name == "Pacific Crest Trail"{
+//                    newDistance = healthKitManager.PCTdistanceWalked
+//                    self.avgDistance = healthKitManager.PCTAvg
+//                    self.stepsWalked = healthKitManager.PCTSteps
+//                }
+//                if route.name == "Appalachian Trail"{
+//                    newDistance = healthKitManager.ATdistanceWalked
+//                    self.avgDistance = healthKitManager.ATAvg
+//                    self.stepsWalked = healthKitManager.ATSteps
+//                }
+//                if route.name == "John Muir Trail"{
+//                    newDistance = healthKitManager.JMTdistanceWalked
+//                    self.avgDistance = healthKitManager.JMTdAvg
+//                    self.stepsWalked = healthKitManager.JMTdSteps
+//                }
+//                if route.name == "Everest Base Camp"{
+//                    newDistance = healthKitManager.EverestdistanceWalked
+//                    self.avgDistance = healthKitManager.EverestAvg
+//                    self.stepsWalked = healthKitManager.EverestSteps
+//                }
+//                if route.name == "Continental Divide Trail"{
+//                    newDistance = healthKitManager.CDdistanceWalked
+//                    self.avgDistance = healthKitManager.CDAvg
+//                    self.stepsWalked = healthKitManager.CDSteps
+//                }
+//                if route.name == "Tour du Mont Blanc"{
+//                    newDistance = healthKitManager.TMBdistanceWalked
+//                    self.avgDistance = healthKitManager.TMBAvg
+//                    self.stepsWalked = healthKitManager.TMBSteps
+//                }
+//                //let newDistance = healthKitManager.distanceWalked
+//                
+//                
+//                if newDistance > Mile{
+//                    Mile = newDistance
+//                }
                 
-                if newDistance > Mile{
-                    print("yeahhhhhhh")
-                    Mile = newDistance
+                
+                
+                
+                if Mile >= Double(route.distance){
+                    route.completed = true
+                    self.endDate = Calendar.current.date(byAdding: .month, value: 0, to: Date())!
+                    Mile = Double(Int(route.distance))
                 }
-                
-                
                 print(Mile)
                 if let (long, lat) = JSONManager.getCoord(for: Mile, from: route.mileMarkerFile) {
                     self.longitude = long
                     self.latitude = lat
+                    print(long)
+                    print(lat)
                 }
                 
-                if Mile == Double(route.distance){
-                    route.completed = true
-                }
                 
                 
-                avgDistance = healthKitManager.dailyAverageDistance
-                print("avgdistance: \(avgDistance)")
-                
-                
-                if avgDistance > 0.0{
-                    let daysRemaining = route.distance / avgDistance
-                    
-                    
-
-                    expectedEndDate = Calendar.current.date(byAdding: .day, value: Int(daysRemaining), to: Date())!
-                }
+//                if avgDistance > 0.0{
+//                    let daysRemaining = route.distance / avgDistance
+//                    
+//                    
+//
+//                    expectedEndDate = Calendar.current.date(byAdding: .day, value: Int(daysRemaining), to: Date())!
+//                }
                 
                 
                 //Mile = healthKitManager.distanceWalked
@@ -128,6 +240,8 @@ struct MapView: View {
                 UserDefaults.standard.set(startDate, forKey: "\(route.name)startDate")
                 UserDefaults.standard.set(route.completed, forKey: "\(route.name)Completed")
                 UserDefaults.standard.set(route.started, forKey: "\(route.name)Started")
+                
+                saveToFirebase()
             }
             
             
@@ -159,7 +273,7 @@ struct MapView: View {
             
             .offset(y: 320)
             .sheet(isPresented: $showSheet) {
-                SheetView(latitude: latitude, longitude: longitude) // Example coordinates for San Francisco
+                SheetView(latitude: latitude, longitude: longitude, route: route) // Example coordinates for San Francisco
             }
             
             
@@ -209,11 +323,33 @@ struct MapView: View {
                                         .font(.title)
                                         .bold()
                                         .padding()
-                                    Text("Start Date: \(self.startDate)")
-                                    Text("Miles Completed: \(Int(self.Mile))")
-                                    Text("Miles Remaining: \(Int(route.distance - self.Mile))")
-                                    Text("Average Distance: \(Int(self.avgDistance))")
-                                    Text("Expected Finish: \(self.expectedEndDate)")
+                                    
+//                                    let formatter = DateFormatter()
+//                                    formatter.dateStyle = .medium
+//                                    let simpleStart = formatter.string(from: self.startDate)
+//                                    let simpleEnd = formatter.string(from: self.expectedEndDate)
+                                    
+                                    
+                                    Text("Start Date: \(startdateFormatted)")
+                                    if route.completed == true {
+                                        Text("Finished On: \(enddateFormatted)")
+                                        Text("Miles Completed: \(Int(self.Mile))")
+                                    }
+                                    else{
+                                        if self.Mile == 0.0{
+                                            Text("Expected Finish: Not Enough Data")
+                                        }
+                                        else{
+                                            Text("Expected Finish: \(enddateFormatted)")
+                                        }
+                                        
+                                        Text("Miles Completed: \(Int(self.Mile))")
+                                        Text("Miles Remaining: \(Int(route.distance - self.Mile))")
+                                    }
+                                    
+                                    Text("Average Mileage: \((String(format: "%.2f", self.avgDistance)))")
+                                    Text("Total Steps: \(Int(self.stepsWalked))")
+//                                    Text("Expected Finish: \(self.expectedEndDate)")
                                     //Text("Miles today: ")
                                     //Text("Most miles in day: ")
                                     
@@ -289,65 +425,28 @@ struct MapView: View {
                             .frame(width: 10, height: 300)
                             .offset(x: -170)
         }
+        var startdateFormatted: String {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+        return formatter.string(from: self.startDate)
+        }
+        var enddateFormatted: String {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+            if route.completed == false {
+                return formatter.string(from: self.expectedEndDate)
+            }
+            else{
+                return formatter.string(from: self.expectedEndDate)
+            }
+        
+        }
         
         
     }
 }
 
 
-
-//struct SheetView: View {
-//    @ObservedObject var viewModel = FlickrViewModel()
-//    @State private var selectedPhoto: FlickrPhoto?
-//    let latitude: Double
-//    let longitude: Double
-//
-//    let columns = [
-//        GridItem(.flexible(), spacing: 20),
-//        GridItem(.flexible(), spacing: 20),
-//        GridItem(.flexible(), spacing: 20)
-//    ]
-//    
-//    var body: some View {
-//        VStack {
-//            Text("Daily Scenary")
-//                    .font(.title)
-//                    .bold()
-//                    .padding()
-//                    .foregroundStyle(.black)
-//            
-//            ScrollView {
-//                LazyVGrid(columns: columns, spacing: 20) {
-//                    ForEach(viewModel.photos) { photo in
-//                        if let url = URL(string: photo.imageUrl) {
-//                            AsyncImage(url: url) { image in
-//                                image
-//                                    .resizable()
-//                                    .aspectRatio(contentMode: .fit)
-//                                    .onTapGesture {
-//                                        selectedPhoto = photo
-//                                    }
-//                            } placeholder: {
-//                                ProgressView()
-//                            }
-//                            .frame(width: 120, height: 120)
-//                            .cornerRadius(8)
-//                            .padding(5)
-//                        }
-//                    }
-//                }
-//                .padding()
-//            }
-//        }
-//        .onAppear {
-//            viewModel.fetchPhotos(latitude: latitude, longitude: longitude)
-//        }
-//        .fullScreenCover(item: $selectedPhoto) { photo in
-//            FullScreenImageView(photo: photo)
-//        }
-//        .background(Color("softGreen"))
-//    }
-//}
 
 struct IdentifiableInt: Identifiable {
     var id: Int
@@ -358,6 +457,7 @@ struct SheetView: View {
     @State private var selectedPhotoIndex: IdentifiableInt?
     let latitude: Double
     let longitude: Double
+    let route: Route
 
     let columns = [
         GridItem(.flexible(), spacing: 10),

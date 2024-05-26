@@ -15,8 +15,29 @@ class HealthKitManager: ObservableObject {
     @Published var PCTdistanceWalked: Double = 0.0
     @Published var JMTdistanceWalked: Double = 0.0
     @Published var ATdistanceWalked: Double = 0.0
-    @Published var stepsWalked: Int = 0
-    @Published var dailyAverageDistance: Double = 0.0
+    @Published var CDdistanceWalked: Double = 0.0
+    @Published var EverestdistanceWalked: Double = 0.0
+    @Published var TMBdistanceWalked: Double = 0.0
+    
+    
+    @Published var PCTAvg: Double = 0.0
+    @Published var JMTdAvg: Double = 0.0
+    @Published var ATAvg: Double = 0.0
+    @Published var CDAvg: Double = 0.0
+    @Published var EverestAvg: Double = 0.0
+    @Published var TMBAvg: Double = 0.0
+    
+    
+    @Published var PCTSteps: Double = 0.0
+    @Published var JMTdSteps: Double = 0.0
+    @Published var ATSteps: Double = 0.0
+    @Published var CDSteps: Double = 0.0
+    @Published var EverestSteps: Double = 0.0
+    @Published var TMBSteps: Double = 0.0
+    
+    
+    //@Published var stepsWalked: Int = 0
+    //@Published var dailyAverageDistance: Double = 0.0
     
     init() {
         if HKHealthStore.isHealthDataAvailable() {
@@ -93,6 +114,7 @@ class HealthKitManager: ObservableObject {
             let group = DispatchGroup()
             group.enter()
             DispatchQueue.main.async {
+                //self.distanceWalked = roundedDistance
                 if route == "Pacific Crest Trail"{
                     self.PCTdistanceWalked = roundedDistance
                 }
@@ -101,6 +123,15 @@ class HealthKitManager: ObservableObject {
                 }
                 if route == "John Muir Trail"{
                     self.JMTdistanceWalked = roundedDistance
+                }
+                if route == "Everest Base Camp"{
+                    self.EverestdistanceWalked = roundedDistance
+                }
+                if route == "Continental Divide Trail"{
+                    self.CDdistanceWalked = roundedDistance
+                }
+                if route == "Tour du Mont Blanc"{
+                    self.TMBdistanceWalked = roundedDistance
                 }
                 //self.distanceWalked = roundedDistance // Update the published property
                 group.leave()
@@ -156,7 +187,7 @@ class HealthKitManager: ObservableObject {
     
     // queries HeathKit for user steps walked
     // opitnally can be from a specified start date
-    func calculateDailyAverageDistance(from startDate: Date) {
+    func calculateDailyAverageDistance(from startDate: Date, route: String) {
             guard let distanceType = HKObjectType.quantityType(forIdentifier: .distanceWalkingRunning) else {
                 print("Distance walking/running data not available.")
                 return
@@ -193,20 +224,38 @@ class HealthKitManager: ObservableObject {
 
                 let averageDistance = daysCount > 0 ? totalDistance / Double(daysCount) : 0.0
                 DispatchQueue.main.async {
-                    self.dailyAverageDistance = self.roundToValidDistance(averageDistance)
+                    if route == "Pacific Crest Trail"{
+                        self.PCTAvg = averageDistance
+                    }
+                    if route == "Appalachian Trail"{
+                        self.ATAvg = averageDistance
+                    }
+                    if route == "John Muir Trail"{
+                        self.JMTdAvg = averageDistance
+                    }
+                    if route == "Everest Base Camp"{
+                        self.EverestAvg = averageDistance
+                    }
+                    if route == "Continental Divide Trail"{
+                        self.CDAvg = averageDistance
+                    }
+                    if route == "Tour du Mont Blanc"{
+                        self.TMBAvg = averageDistance
+                    }
+                    //self.dailyAverageDistance = self.roundToValidDistance(averageDistance)
                 }
             }
 
             healthStore.execute(query)
         }
 
-        func queryStepsWalked() {
+        func queryStepsWalked(from startDate: Date, route: String) {
             guard let stepType = HKObjectType.quantityType(forIdentifier: .stepCount) else {
                 print("Step count data not available.")
                 return
             }
             
-            let startDate = Calendar.current.date(byAdding: .month, value: -6, to: Date())
+            //let startDate = Calendar.current.date(byAdding: .month, value: -6, to: Date())
             let predicate = HKQuery.predicateForSamples(withStart: startDate, end: Date(), options: .strictStartDate)
             
             let query = HKStatisticsQuery(quantityType: stepType, quantitySamplePredicate: predicate, options: .cumulativeSum) { [weak self] _, result, error in
@@ -219,9 +268,27 @@ class HealthKitManager: ObservableObject {
                     return
                 }
                 
-                let steps = Int(sum.doubleValue(for: .count()))
+                let steps = (sum.doubleValue(for: .count()))
                 DispatchQueue.main.async {
-                    self.stepsWalked = steps
+                    if route == "Pacific Crest Trail"{
+                        self.PCTSteps = steps
+                    }
+                    if route == "Appalachian Trail"{
+                        self.ATSteps = steps
+                    }
+                    if route == "John Muir Trail"{
+                        self.JMTdSteps = steps
+                    }
+                    if route == "Everest Base Camp"{
+                        self.EverestSteps = steps
+                    }
+                    if route == "Continental Divide Trail"{
+                        self.CDSteps = steps
+                    }
+                    if route == "Tour du Mont Blanc"{
+                        self.TMBSteps = steps
+                    }
+                    //self.stepsWalked = steps
                 }
             }
             

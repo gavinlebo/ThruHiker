@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    var body: some View {
-        RouteExploreView()
-    }
-}
-
-#Preview {
-    ContentView()
-}
+//struct ContentView: View {
+//    var body: some View {
+//        MainView(routeManager: routeManager)
+//    }
+//}
+//
+//#Preview {
+//    ContentView()
+//}
