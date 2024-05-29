@@ -102,7 +102,7 @@ struct NamePromptOverlay: View {
                         .bold()
                         .padding()
                     
-                    Text("Before you hit the trail, enter your name. This is how you will show up to others on leaderboards. Happy hiking!")
+                    Text("Before you hit the trail, enter your name. This is how you will appear to others on leaderboards.")
                         .font(.body)
                     
                     
@@ -132,8 +132,8 @@ struct NamePromptOverlay: View {
                             .cornerRadius(8)
                     }
                     .disabled(enteredName.isEmpty)
-
-                    Spacer()
+                    
+                    //Spacer()
                 }
                 .padding()
                 .frame(width: 300, height: 350)
@@ -148,142 +148,6 @@ struct NamePromptOverlay: View {
 
 
 
-
-
-
-
-//import SwiftUI
-//
-//struct MainView: View {
-//    @State private var refreshID = UUID()
-//    @State private var selectedTab: Tab = .explore
-//
-//    enum Tab {
-//        case explore, inProgress, completed
-//    }
-//
-//    init() {
-//        UITabBar.appearance().backgroundColor = UIColor(Color("softGreen"))
-//        UITabBar.appearance().isTranslucent = false
-//    }
-//    
-//    var body: some View {
-//        NavigationView {
-//            TabView(selection: $selectedTab) {
-//                ExploreView()
-//                    .id(refreshID)
-//                    .tabItem {
-//                        Label("Explore", systemImage: "magnifyingglass")
-//                    }
-//                    .tag(Tab.explore)
-//                InProgressView()
-//                    .id(refreshID)
-//                    .tabItem {
-//                        Label("In Progress", systemImage: "clock")
-//                    }
-//                    .tag(Tab.inProgress)
-//                CompletedView()
-//                    .id(refreshID)
-//                    .tabItem {
-//                        Label("Completed", systemImage: "checkmark")
-//                    }
-//                    .tag(Tab.completed)
-//            }
-//            .toolbar {
-//                ToolbarItem(placement: .principal) {
-//                    Text("ThruHiker")
-//                        .font(.title)
-//                        .bold()
-//                }
-//                ToolbarItem(placement: .navigationBarTrailing) {
-//                    Button(action: {
-//                        refreshID = UUID()
-//                    }) {
-//                        Image(systemName: "arrow.clockwise")
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
-//
-//#Preview {
-//    MainView()
-//}
-
-//import SwiftUI
-//
-//struct MainView: View {
-//    @State private var refreshID = UUID()
-//    @State private var selectedTab: Tab = .explore
-//
-//    enum Tab {
-//        case explore, inProgress, completed
-//    }
-//
-//    init() {
-//        UITabBar.appearance().backgroundColor = UIColor(Color("softGreen"))
-//        UITabBar.appearance().isTranslucent = false
-//    }
-//    
-//    var body: some View {
-//        NavigationView {
-//            TabView(selection: $selectedTab) {
-//                ExploreView(refresh: $refreshID)
-//                    .tabItem {
-//                        Label("Explore", systemImage: "magnifyingglass")
-//                    }
-//                    .tag(Tab.explore)
-//                InProgressView(refresh: $refreshID)
-//                    .tabItem {
-//                        Label("In Progress", systemImage: "clock")
-//                    }
-//                    .tag(Tab.inProgress)
-//                CompletedView(refresh: $refreshID)
-//                    .tabItem {
-//                        Label("Completed", systemImage: "checkmark")
-//                    }
-//                    .tag(Tab.completed)
-//            }
-//            .navigationTitle("ThruHiker")
-//            .toolbar {
-//                ToolbarItem(placement: .navigationBarTrailing) {
-//                    Button(action: {
-//                        refreshID = UUID()
-//                    }) {
-//                        Image(systemName: "arrow.clockwise")
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
-
-//struct MainView: View {
-//    init() {
-//        UITabBar.appearance().backgroundColor = UIColor(Color("softGreen"))
-//        UITabBar.appearance().isTranslucent = false
-//    }
-//    
-//    var body: some View {
-//        NavigationView {
-//            TabView {
-//                ExploreView()
-//                    .tabItem {
-//                        Label("Explore", systemImage: "magnifyingglass")
-//                    }
-//                InProgressView()
-//                    .tabItem {
-//                        Label("In Progress", systemImage: "clock")
-//                    }
-//                CompletedView()
-//                    .tabItem {
-//                        Label("Completed", systemImage: "checkmark")
-//                    }
-//            }
-//        }
-//    }
-//}
 
 //#Preview {
 //    MainView()

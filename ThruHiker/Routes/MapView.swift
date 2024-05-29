@@ -21,24 +21,28 @@ struct MapView: View {
     
     @EnvironmentObject var healthKitManager: HealthKitManager
     @AppStorage("userName") private var userName: String?
+    @StateObject var LviewModel = LeaderboardViewModel()
     
     //@Binding var sharedState: SharedState
     @Binding var route: Route
     
     @State private var showSheet = false
     @State private var showPopover = false
+    @State private var showLeaderBoardSheet = false
     
     @StateObject var viewModel = WeatherViewModel()
     
     @State private var latitude: Double = 0.0
     @State private var longitude: Double = 0.0
     @State private var Mile: Double = 0.0
+    @State private var MileToday: Double = 0.0
     @State var startDate: Date = Date()
     @State var endDate: Date = Date()
     
     @State var expectedEndDate: Date = Date()
     @State var avgDistance: Double = 0.0
     @State var stepsWalked: Double = 0.0
+    @State var stepsWalkedToday: Double = 0.0
     
     //@State var userID: UUID = UUID()
     
@@ -122,31 +126,44 @@ struct MapView: View {
                         newDistance = healthKitManager.PCTdistanceWalked
                         self.avgDistance = healthKitManager.PCTAvg
                         self.stepsWalked = healthKitManager.PCTSteps
+                        self.stepsWalkedToday = healthKitManager.PCTStepsToday
+                        self.MileToday = healthKitManager.PCTdistanceWalkedToday
+                        
                     }
                     if route.name == "Appalachian Trail"{
                         newDistance = healthKitManager.ATdistanceWalked
                         self.avgDistance = healthKitManager.ATAvg
                         self.stepsWalked = healthKitManager.ATSteps
+                        self.stepsWalkedToday = healthKitManager.ATStepsToday
+                        self.MileToday = healthKitManager.ATdistanceWalkedToday
                     }
                     if route.name == "John Muir Trail"{
                         newDistance = healthKitManager.JMTdistanceWalked
                         self.avgDistance = healthKitManager.JMTdAvg
                         self.stepsWalked = healthKitManager.JMTdSteps
+                        self.stepsWalkedToday = healthKitManager.JMTdStepsToday
+                        self.MileToday = healthKitManager.JMTdistanceWalkedToday
                     }
                     if route.name == "Everest Base Camp"{
                         newDistance = healthKitManager.EverestdistanceWalked
                         self.avgDistance = healthKitManager.EverestAvg
                         self.stepsWalked = healthKitManager.EverestSteps
+                        self.stepsWalkedToday = healthKitManager.EverestStepsToday
+                        self.MileToday = healthKitManager.EverestdistanceWalkedToday
                     }
                     if route.name == "Continental Divide Trail"{
                         newDistance = healthKitManager.CDdistanceWalked
                         self.avgDistance = healthKitManager.CDAvg
                         self.stepsWalked = healthKitManager.CDSteps
+                        self.stepsWalkedToday = healthKitManager.CDStepsToday
+                        self.MileToday = healthKitManager.CDdistanceWalkedToday
                     }
                     if route.name == "Tour du Mont Blanc"{
                         newDistance = healthKitManager.TMBdistanceWalked
                         self.avgDistance = healthKitManager.TMBAvg
                         self.stepsWalked = healthKitManager.TMBSteps
+                        self.stepsWalkedToday = healthKitManager.TMBStepsToday
+                        self.MileToday = healthKitManager.TMBdistanceWalkedToday
                     }
                     //let newDistance = healthKitManager.distanceWalked
                     
@@ -166,45 +183,7 @@ struct MapView: View {
                     
                     
                 }
-//                var newDistance = 0.0
-//                if route.name == "Pacific Crest Trail"{
-//                    newDistance = healthKitManager.PCTdistanceWalked
-//                    self.avgDistance = healthKitManager.PCTAvg
-//                    self.stepsWalked = healthKitManager.PCTSteps
-//                }
-//                if route.name == "Appalachian Trail"{
-//                    newDistance = healthKitManager.ATdistanceWalked
-//                    self.avgDistance = healthKitManager.ATAvg
-//                    self.stepsWalked = healthKitManager.ATSteps
-//                }
-//                if route.name == "John Muir Trail"{
-//                    newDistance = healthKitManager.JMTdistanceWalked
-//                    self.avgDistance = healthKitManager.JMTdAvg
-//                    self.stepsWalked = healthKitManager.JMTdSteps
-//                }
-//                if route.name == "Everest Base Camp"{
-//                    newDistance = healthKitManager.EverestdistanceWalked
-//                    self.avgDistance = healthKitManager.EverestAvg
-//                    self.stepsWalked = healthKitManager.EverestSteps
-//                }
-//                if route.name == "Continental Divide Trail"{
-//                    newDistance = healthKitManager.CDdistanceWalked
-//                    self.avgDistance = healthKitManager.CDAvg
-//                    self.stepsWalked = healthKitManager.CDSteps
-//                }
-//                if route.name == "Tour du Mont Blanc"{
-//                    newDistance = healthKitManager.TMBdistanceWalked
-//                    self.avgDistance = healthKitManager.TMBAvg
-//                    self.stepsWalked = healthKitManager.TMBSteps
-//                }
-//                //let newDistance = healthKitManager.distanceWalked
-//                
-//                
-//                if newDistance > Mile{
-//                    Mile = newDistance
-//                }
-                
-                
+
                 
                 
                 if Mile >= Double(route.distance){
@@ -220,18 +199,6 @@ struct MapView: View {
                     print(lat)
                 }
                 
-                
-                
-//                if avgDistance > 0.0{
-//                    let daysRemaining = route.distance / avgDistance
-//                    
-//                    
-//
-//                    expectedEndDate = Calendar.current.date(byAdding: .day, value: Int(daysRemaining), to: Date())!
-//                }
-                
-                
-                //Mile = healthKitManager.distanceWalked
                 
                 //store state
                 UserDefaults.standard.set(latitude, forKey: "\(route.name)latitude")
@@ -261,108 +228,54 @@ struct MapView: View {
 //            .sheet(isPresented: $showSheet) {
 //                SheetView(latitude: latitude, longitude: longitude) // Example coordinates for San Francisco
 //            }
-            Button {
-                showSheet.toggle()
-            } label: {
-                Image(systemName: "photo.fill.on.rectangle.fill")
-                    .resizable()
-                    .foregroundStyle(.blue)
-                    .frame(width: 70, height: 70) // Adjust the frame size to make it smaller
-                    .padding(10) // Add padding to create space around the image
-            }
-            
-            .offset(y: 320)
-            .sheet(isPresented: $showSheet) {
-                SheetView(latitude: latitude, longitude: longitude, route: route) // Example coordinates for San Francisco
-            }
-            
-            
-            
-            Button {
-                showPopover.toggle()
-            } label: {
-                Image(systemName: "chart.bar.xaxis")
-                    .resizable()
-                    .foregroundStyle(.blue)
-                    .frame(width: 50, height: 50) // Adjust the frame size to make it smaller
-                    .padding(10) // Add padding to create space around the image
-            }
-            .background(
-                RoundedRectangle(cornerRadius: 15)
-                    .fill(.white)
-                    .frame(width: 70, height: 70) // Set the frame size for the background
-            )
-            .offset(x: 150, y: 320)
-            
-            if showPopover {
-                            Color.black.opacity(0.4) // Optional: dim background
-                                .edgesIgnoringSafeArea(.all)
-                                .onTapGesture {
-                                    showPopover = false
-                                }
-
-                            VStack {
-                                
-                                VStack {
-                                    HStack {
-                                        Spacer()
-                                        Button(action: {
-                                            showPopover = false
-                                        }) {
-                                            Image(systemName: "xmark")
-                                                .foregroundColor(.white)
-                                                //.padding()
-                                                .frame(width: 30, height: 30)
-                                                .background(Color.red)
-                                                .clipShape(Circle())
-                                        }
-                                    }
-                                    //.padding([.top, .trailing])
-
-                                    Text("Statistics")
-                                        .font(.title)
-                                        .bold()
-                                        .padding()
-                                    
-//                                    let formatter = DateFormatter()
-//                                    formatter.dateStyle = .medium
-//                                    let simpleStart = formatter.string(from: self.startDate)
-//                                    let simpleEnd = formatter.string(from: self.expectedEndDate)
-                                    
-                                    
-                                    Text("Start Date: \(startdateFormatted)")
-                                    if route.completed == true {
-                                        Text("Finished On: \(enddateFormatted)")
-                                        Text("Miles Completed: \(Int(self.Mile))")
-                                    }
-                                    else{
-                                        if self.Mile == 0.0{
-                                            Text("Expected Finish: Not Enough Data")
-                                        }
-                                        else{
-                                            Text("Expected Finish: \(enddateFormatted)")
-                                        }
-                                        
-                                        Text("Miles Completed: \(Int(self.Mile))")
-                                        Text("Miles Remaining: \(Int(route.distance - self.Mile))")
-                                    }
-                                    
-                                    Text("Average Mileage: \((String(format: "%.2f", self.avgDistance)))")
-                                    Text("Total Steps: \(Int(self.stepsWalked))")
-//                                    Text("Expected Finish: \(self.expectedEndDate)")
-                                    //Text("Miles today: ")
-                                    //Text("Most miles in day: ")
-                                    
-                                    Spacer()
-                                }
-                                .padding()
-                                .frame(width: 300, height: 350)
-                                .background(.softGreen)
-                                .cornerRadius(15)
-                                .shadow(radius: 10)
-                            }
-                            .transition(.scale)
+            GeometryReader { geometry in
+                VStack {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        Spacer()
+                        Button {
+                            showSheet.toggle()
+                        } label: {
+                            Image(systemName: "photo.fill.on.rectangle.fill")
+                                .resizable()
+                                .foregroundStyle(.blue)
+                                .frame(width: geometry.size.width * 0.18, height: geometry.size.width * 0.18)
+                                .padding(10)
                         }
+                        .frame(width: geometry.size.width * 0.18, height: geometry.size.width * 0.18)
+                        .offset(y: -20)
+
+                        Spacer() // Spacer between buttons
+
+                        Button {
+                            showPopover.toggle()
+                        } label: {
+                            Image(systemName: "chart.bar.xaxis")
+                                .resizable()
+                                .foregroundStyle(.blue)
+                                .frame(width: geometry.size.width * 0.12, height: geometry.size.width * 0.12)
+                                .padding(10)
+                        }
+                        .background(
+                            RoundedRectangle(cornerRadius: 15)
+                                .fill(Color.white)
+                                .frame(width: geometry.size.width * 0.18, height: geometry.size.width * 0.18)
+                        )
+                        .offset(y: -20)
+                        .padding(.trailing, 20)
+//                        .padding(.bottom, 20)
+                        //Spacer() // Spacer to ensure the HStack is full width
+                    }
+                    .frame(width: geometry.size.width)
+                }
+                .frame(width: geometry.size.width, height: geometry.size.height)
+            }
+            .edgesIgnoringSafeArea(.all)
+            .sheet(isPresented: $showSheet) {
+                SheetView(latitude: latitude, longitude: longitude, route: route)
+            }
+            
 //            if showPopover {
 //                            Color.black.opacity(0.4) // Optional: dim background
 //                                .edgesIgnoringSafeArea(.all)
@@ -371,59 +284,288 @@ struct MapView: View {
 //                                }
 //
 //                            VStack {
-//                                Text("Statistics")
-//                                    .font(.title)
-//                                    .bold()
-//                                    .padding()
-//                                Text("Start Date: \(self.startDate)")
-//                                Text("Miles Completed: \(Int(self.Mile))")
-//                                Text("Miles Remaining: \(route.distance - Int(self.Mile))")
 //                                
-//                                
-//                                //More statistics here
-//                                
-//                                Button("Close") {
-//                                    showPopover = false
+//                                VStack {
+//                                    HStack {
+//                                        Spacer()
+//                                        Button(action: {
+//                                            showPopover = false
+//                                        }) {
+//                                            Image(systemName: "xmark")
+//                                                .foregroundColor(.white)
+//                                                //.padding()
+//                                                .frame(width: 30, height: 30)
+//                                                .background(Color.red)
+//                                                .clipShape(Circle())
+//                                        }
+//                                    }
+//                                    //.padding([.top, .trailing])
+//
+//                                    Text("Statistics")
+//                                        .font(.title)
+//                                        .bold()
+//                                        .padding()
+//                                    
+////                                    let formatter = DateFormatter()
+////                                    formatter.dateStyle = .medium
+////                                    let simpleStart = formatter.string(from: self.startDate)
+////                                    let simpleEnd = formatter.string(from: self.expectedEndDate)
+//                                    
+//                                    
+//                                    Text("Start Date: \(startdateFormatted)")
+//                                    if route.completed == true {
+//                                        Text("Finished On: \(enddateFormatted)")
+//                                        Text("Miles Completed: \(Int(self.Mile))")
+//                                    }
+//                                    else{
+//                                        if self.Mile == 0.0{
+//                                            Text("Expected Finish: Not Enough Data")
+//                                        }
+//                                        else{
+//                                            Text("Expected Finish: \(enddateFormatted)")
+//                                            
+//                                            
+//                                            
+//                                        }
+//                                        Text("Miles today: \(Int(self.MileToday))")
+//                                        Text("Steps today: \(Int(self.stepsWalkedToday))")
+//                                        
+//                                        Text("Miles Completed: \(Int(self.Mile))")
+//                                        Text("Miles Remaining: \(Int(route.distance - self.Mile))")
+//                                    }
+//                                    
+//                                    Text("Average Mileage: \((String(format: "%.2f", self.avgDistance)))")
+//                                    Text("Total Steps: \(Int(self.stepsWalked))")
+////                                    Text("Expected Finish: \(self.expectedEndDate)")
+//                                    //Text("Miles today: ")
+//                                    //Text("Most miles in day: ")
+//                                    
+//                                    Spacer()
 //                                }
+//                                .padding()
+//                                .frame(width: 300, height: 350)
+//                                .background(.softGreen)
+//                                .cornerRadius(15)
+//                                .shadow(radius: 10)
 //                            }
-//                            .padding()
-//                            .frame(width: 300, height: 300)
-//                            .background(.softGreen)
-//                            .cornerRadius(15)
-//                            .shadow(radius: 10)
 //                            .transition(.scale)
 //                        }
-                
-            
-            
-            
-            
-            VStack(spacing: 0) {
-                        if let iconURL = viewModel.weatherIconURL {
-                            AsyncImage(url: iconURL) { image in
-                                image.resizable()
-                            } placeholder: {
-                                ProgressView()
-                            }
-                            .frame(width: 75, height: 75)
-                        } else {
-                            Text("Loading...")
+//
+//
+
+            if showPopover {
+                ZStack {
+                    Color.black.opacity(0.4) // Optional: dim background
+                        .edgesIgnoringSafeArea(.all)
+                        .onTapGesture {
+                            showPopover = false
                         }
-                        
-                        if let temperature = viewModel.temperature {
-                            Text("\(temperature, specifier: "%.1f") °F")
+
+                    VStack {
+                        VStack {
+                            HStack {
+                                Spacer()
+                                Button(action: {
+                                    showPopover = false
+                                }) {
+                                    Image(systemName: "xmark")
+                                        .foregroundColor(.white)
+                                        .frame(width: 30, height: 30)
+                                        .background(Color.red)
+                                        .clipShape(Circle())
+                                }
+                            }
+                            Text("Statistics")
                                 .font(.title)
-                                .padding(.horizontal)
-                        } else {
-                            Text("Loading temperature...")
+                                .bold()
+                                .padding()
+                            
+                            Text("Start Date: \(startdateFormatted)")
+                            if route.completed == true {
+                                Text("Finished On: \(enddateFormatted)")
+                                Text("Miles Completed: \((String(format: "%.2f", self.Mile)))")
+                            } else {
+                                if self.Mile == 0.0 {
+                                    Text("Expected Finish: Not Enough Data")
+                                } else {
+                                    Text("Expected Finish: \(enddateFormatted)")
+                                }
+                                Text("Miles today: \((String(format: "%.2f", self.MileToday)))")
+                                Text("Steps today: \(Int(self.stepsWalkedToday))")
+                                Text("Miles Completed: \((String(format: "%.2f", self.Mile)))")
+                                Text("Miles Remaining: \(Int(route.distance - self.Mile))")
+                            }
+                            Text("Average Mileage: \((String(format: "%.2f", self.avgDistance)))")
+                            Text("Total Steps: \(Int(self.stepsWalked))")
+                            Spacer()
+                        }
+                        .padding()
+                        .frame(width: 300, height: 350)
+                        .background(Color.softGreen)
+                        .cornerRadius(15)
+                        .shadow(radius: 10)
+                        .overlay{
+                            VStack {
+                                Spacer()
+                                HStack {
+                                    Spacer()
+                                    Button(action: {
+                                        showLeaderBoardSheet = true
+                                    }) {
+                                        Image(systemName: "trophy")
+                                            .foregroundColor(.white)
+                                            .frame(width: 40, height: 40)
+                                            .background(Color.blue)
+                                            .clipShape(Circle())
+                                            //.padding()
+                                    }
+                                    .sheet(isPresented: $showLeaderBoardSheet) {
+                                        // Your sheet content here
+                                        VStack {
+                                            Text("\(route.name)")
+                                                .font(.title)
+                                                .bold()
+                                                .padding()
+                                            Text("Current Standings")
+                                                .font(.title)
+                                                .bold()
+                                                .padding()
+
+                                            if LviewModel.users.filter ({ !$0.completed }).isEmpty {
+                                                Text("No one is currently hiking the \(route.name). Take the trail less followed.")
+                                                    .padding()
+                                            } else {
+                                                HStack {
+                                                    Text("Pos.")
+                                                        .font(.subheadline)
+                                                        .bold()
+                                                        .frame(width: 35, alignment: .leading)
+                                                        .padding(.leading)
+                                                    Text("Name")
+                                                        .font(.subheadline)
+                                                        .bold()
+                                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                                        //.padding(.horizontal)
+                                                    Text("Miles")
+                                                        .font(.subheadline)
+                                                        .bold()
+                                                        .frame(maxWidth: .infinity, alignment: .center)
+                                                    Text("Start Date")
+                                                        .font(.subheadline)
+                                                        .bold()
+                                                        .frame(maxWidth: .infinity, alignment: .center)
+                                                    Text("Expected Finish")
+                                                        .font(.subheadline)
+                                                        .bold()
+                                                        .frame(maxWidth: .infinity, alignment: .trailing)
+                                                }
+                                                .padding(.horizontal)
+                                                
+                                                
+                                                //.listRowBackground(Color("softGreen"))
+                                            }
+                                            List(Array(LviewModel.users.filter { !$0.completed }.enumerated()), id: \.element.id) { index, user in
+                                                HStack {
+                                                    Text("\(index + 1)")
+                                                        .bold()
+                                                        .frame(width: 30, alignment: .leading) // Fixed width for alignment
+                                                    Text(user.id)
+                                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                                        .font(.footnote)
+                                                    Text(String(format: "%.2f", user.miles))
+                                                        .frame(maxWidth: .infinity, alignment: .center)
+                                                        .font(.footnote)
+                                                    Text(user.startDate, style: .date)
+                                                        .frame(maxWidth: .infinity, alignment: .center)
+                                                        .font(.footnote)
+                                                    if user.avgDistance == 0.0{
+                                                        Text("TBD")
+                                                            .frame(maxWidth: .infinity, alignment: .trailing)
+                                                            .font(.footnote)
+                                                    }
+                                                    else{
+                                                        Text(user.expectedFinish, style: .date)
+                                                            .frame(maxWidth: .infinity, alignment: .trailing)
+                                                            .font(.footnote)
+                                                    }
+                                                    
+                                                }
+                                                .listRowBackground(Color("lightBrown"))
+                                            }
+                                            .background(Color("softGreen"))
+                                            
+
+                                            .scrollContentBackground(.hidden)
+                                        }
+                                        .background(Color("softGreen"))
+                                        .onAppear {
+                                            LviewModel.fetchUsers(routeName: route.name)
+                                        }
+                                    }
+                                }
+                            }
+                            .padding()
                         }
                     }
+                    
+                    
+                }
+                .transition(.scale)
+            }
+
+            
+            GeometryReader { geometry in
+                        VStack {
+                            HStack {
+                                Spacer()
+                                VStack(spacing: 0) {
+                                    if let iconURL = viewModel.weatherIconURL {
+                                        AsyncImage(url: iconURL) { image in
+                                            image.resizable()
+                                        } placeholder: {
+                                            ProgressView()
+                                        }
+                                        .frame(width: geometry.size.width * 0.20, height: geometry.size.width * 0.20)
+                                    } else {
+                                        Text("Loading...")
+                                    }
+
+                                    if let temperature = viewModel.temperature {
+                                        Text("\(temperature, specifier: "%.1f") °F")
+                                            .font(.title)
+                                            .padding(.horizontal)
+                                    } else {
+                                        Text("Loading temperature...")
+                                    }
+                                }
+                                .padding(.top, 20) // Adjust the padding to add space from the top edge
+                                .padding(.trailing, 20) // Adjust the padding to add space from the right edge
+                            }
+                            Spacer()
+                        }
+                        .frame(width: geometry.size.width, height: geometry.size.height)
+                    }
+                    .edgesIgnoringSafeArea(.all)
                     .onAppear {
                         viewModel.fetchWeather(lat: latitude, lon: longitude) // Example coordinates
-                    }.offset(x: 140, y: -360)
-            progressBar(progress: $Mile, totalDistance: $route.distance)
-                            .frame(width: 10, height: 300)
-                            .offset(x: -170)
+                    }
+            
+            
+            
+            GeometryReader { geometry in
+                        HStack {
+                            VStack {
+                                Spacer()
+                                progressBar(progress: $Mile, totalDistance: $route.distance)
+                                    .frame(width: geometry.size.height * 0.01, height: geometry.size.height * 0.4)
+                                    .padding(.leading, 20) // Adjust the padding to add space from the left edge
+                                Spacer()
+                            }
+                            Spacer()
+                        }
+                        .frame(width: geometry.size.width, height: geometry.size.height)
+                    }
+                    .edgesIgnoringSafeArea(.all)
         }
         var startdateFormatted: String {
             let formatter = DateFormatter()
@@ -508,110 +650,6 @@ struct SheetView: View {
 
 
 
-
-//
-//struct FullScreenImageView: View {
-//    @ObservedObject var viewModel: FlickrViewModel
-//    @State private var selectedPhotoIndex: Int
-//    @Environment(\.presentationMode) var presentationMode
-//
-//    @State private var scale: CGFloat = 1.0
-//    @State private var lastScale: CGFloat = 1.0
-//
-//    init(viewModel: FlickrViewModel, selectedPhotoIndex: Int) {
-//        self.viewModel = viewModel
-//        self._selectedPhotoIndex = State(initialValue: selectedPhotoIndex)
-//    }
-//
-//    var body: some View {
-//        GeometryReader { geometry in
-//            ZStack {
-//                if let url = URL(string: "https://farm\(viewModel.photos[selectedPhotoIndex].farm).staticflickr.com/\(viewModel.photos[selectedPhotoIndex].server)/\(viewModel.photos[selectedPhotoIndex].id)_\(viewModel.photos[selectedPhotoIndex].secret)_b.jpg") {
-//                    AsyncImage(url: url) { image in
-//                        image
-//                            .resizable()
-//                            .scaledToFit()
-//                            .scaleEffect(scale)
-//                            .gesture(
-//                                MagnificationGesture()
-//                                    .onChanged { value in
-//                                        scale = lastScale * value
-//                                        if scale < 1.0{
-//                                            scale = 1.0
-//                                        }
-//                                    }
-//                                    .onEnded { _ in
-//                                        lastScale = scale
-//                                    }
-//                            )
-//                            
-//                            .edgesIgnoringSafeArea(.all)
-//                    } placeholder: {
-//                        ProgressView()
-//                            .edgesIgnoringSafeArea(.all)
-//                    }
-//                }
-//
-//                VStack {
-//                    HStack {
-//                        Spacer()
-//
-//                        Button(action: {
-//                            presentationMode.wrappedValue.dismiss()
-//                        }) {
-//                            Image(systemName: "xmark")
-//                                .foregroundColor(.white)
-//                                .padding()
-//                                .frame(width: 30, height: 30)
-//                                .background(Color.red)
-//                                .clipShape(Circle())
-//                        }
-//                    }
-//
-//                    Spacer()
-//                }
-//
-//                HStack {
-//                    Button(action: {
-//                        selectedPhotoIndex = max(selectedPhotoIndex - 1, 0)
-//                        resetScale()
-//                    }) {
-//                        Image(systemName: "chevron.left.circle.fill")
-//                            .font(.largeTitle)
-//                            .foregroundStyle(Color("lightBrown"))
-//                            //.padding()
-////                            .background(Color.black.opacity(0.6))
-////                            .clipShape(Circle())
-//                            //.padding()
-//                    }
-//                    .disabled(selectedPhotoIndex == 0)
-//
-//                    Spacer()
-//
-//                    Button(action: {
-//                        selectedPhotoIndex = min(selectedPhotoIndex + 1, viewModel.photos.count - 1)
-//                        resetScale()
-//                    }) {
-//                        Image(systemName: "chevron.right.circle.fill")
-//                            .font(.largeTitle)
-//                            .foregroundStyle(Color("lightBrown"))
-//                            //.padding()
-////                            .background(Color.black.opacity(0.6))
-////                            .clipShape(Circle())
-//                            //.padding()
-//                    }
-//                    .disabled(selectedPhotoIndex == viewModel.photos.count - 1)
-//                }
-//                .padding(.horizontal)
-//            }
-//        }
-//    }
-//
-//    private func resetScale() {
-//        scale = 1.0
-//        lastScale = 1.0
-//    }
-//}
 
 
 struct FullScreenImageView: View {

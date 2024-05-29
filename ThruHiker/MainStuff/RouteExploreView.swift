@@ -21,7 +21,7 @@ struct ExploreView: View {
 
     var body: some View {
         VStack {
-            Text("Explore ThruHikes")
+            Text("Explore Routes")
                 .font(.title)
                 .bold()
                 .padding(.horizontal)

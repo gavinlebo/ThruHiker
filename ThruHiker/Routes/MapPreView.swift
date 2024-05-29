@@ -15,8 +15,9 @@ struct MapPreView: View {
     
     var body: some View {
         Map()
-        .mapStyle(MapStyle(uri: StyleURI(rawValue: route.mapURL)!))
+            .mapStyle(MapStyle(uri: StyleURI(rawValue: route.mapURL)!))
         .ignoresSafeArea()
+        
     }
 }
 

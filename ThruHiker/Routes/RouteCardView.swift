@@ -198,9 +198,11 @@ struct RouteCardView: View {
             if UserDefaults.standard.object(forKey: "\(route.name)startDate") != nil {
                 let startDate = UserDefaults.standard.object(forKey: "\(route.name)startDate") as! Date
                 healthKitManager.queryDistanceWalked(from: startDate, route: route.name)
+                healthKitManager.queryDistanceWalkedToday(route: route.name)
                 
                 healthKitManager.calculateDailyAverageDistance(from: startDate, route: route.name)
                 healthKitManager.queryStepsWalked(from: startDate, route: route.name)
+                healthKitManager.queryStepsWalkedToday(route: route.name)
             }
         }
     }
@@ -234,18 +236,19 @@ class LeaderboardViewModel: ObservableObject {
                 print("No documents found")
                 return
             }
+            self.users = []
             for document in documents{
                 let name = document.data()["name"] as? String ?? ""
                 let miles = document.data()["miles"] as? Double ?? 0.0
                 let avgDistance = document.data()["avgDistance"] as? Double ?? 0.0
-                let startStamp = document.data()["startDate"] as? Timestamp
-                let startDate = startStamp!.dateValue()
+                let startStamp = document.data()["startDate"] as? Timestamp ?? Timestamp()
+                let startDate = startStamp.dateValue()
                 print(startDate)
-                let expectedStamp = document.data()["expectedFinish"] as? Timestamp
-                let expectedFinish = expectedStamp!.dateValue()
+                let expectedStamp = document.data()["expectedFinish"] as? Timestamp ?? Timestamp()
+                let expectedFinish = expectedStamp.dateValue()
                 let completed = document.data()["completed"] as? Bool ?? false
-                let enddStamp = document.data()["endDate"] as? Timestamp
-                let endDate = enddStamp!.dateValue()
+                let enddStamp = document.data()["endDate"] as? Timestamp ?? Timestamp()
+                let endDate = enddStamp.dateValue()
                 self.users.append(User(id: name, miles: miles, completed: completed, startDate: startDate, expectedFinish: expectedFinish, endDate: endDate, avgDistance: avgDistance))
                
             }
@@ -269,72 +272,90 @@ struct LeaderboardView: View {
     var body: some View {
         TabView {
             VStack {
-                Text("Completed Leaderboard")
+                Text("\(route.name)")
+                    .font(.title)
+                    .bold()
+                Text("All-Time Leaderboard")
                     .font(.title)
                     .bold()
                     .padding()
 
                 if viewModel.users.filter ({ $0.completed }).isEmpty {
-                    Text("No one has finished this trail. Race to be the first!")
+                    Text("No one has yet finished the \(route.name). Race to be the first!")
                         .padding()
                 } else {
                     HStack {
+                        Text("Pos.")
+                            .font(.subheadline)
+                            .bold()
+                            .frame(width: 35, alignment: .leading)
+                            .padding(.leading)
                         Text("Name")
                             .font(.subheadline)
                             .bold()
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.horizontal)
+//                            .padding(.horizontal)
                         Text("Pace(mi/day)")
                             .font(.subheadline)
                             .bold()
-                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .frame(maxWidth: .infinity, alignment: .center)
                         Text("End Date")
                             .font(.subheadline)
                             .bold()
-                            .frame(maxWidth: .infinity, alignment: .center)
-                        
+                            .frame(maxWidth: .infinity, alignment: .trailing)
                     }
                     .padding(.horizontal)
-                    
-                    
-                    //.listRowBackground(Color("softGreen"))
                 }
-                List(viewModel.users.filter { $0.completed }) { user in
+                
+                List(Array(viewModel.users.filter { $0.completed }.enumerated()), id: \.element.id) { index, user in
                     HStack {
+                        Text("\(index + 1)")
+                            .bold()
+                            .frame(width: 30, alignment: .leading) // Fixed width for alignment
                         Text(user.id)
                             .frame(maxWidth: .infinity, alignment: .leading)
+                            .font(.footnote)
                         Text(String(format: "%.2f", user.avgDistance))
                             .frame(maxWidth: .infinity, alignment: .center)
+                            .font(.footnote)
                         Text(user.endDate, style: .date)
                             .frame(maxWidth: .infinity, alignment: .trailing)
+                            .font(.footnote)
                     }
                     .listRowBackground(Color("lightBrown"))
                 }
                 .background(Color("softGreen"))
-
                 .scrollContentBackground(.hidden)
             }
             .background(Color("softGreen"))
             .tabItem {
-                Label("Completed", systemImage: "checkmark.circle")
+                Label("All-Time", systemImage: "trophy")
             }
             
             VStack {
-                Text("In-Progress Leaderboard")
+                Text("\(route.name)")
+                    .font(.title)
+                    .bold()
+                Text("Current Standings")
                     .font(.title)
                     .bold()
                     .padding()
 
                 if viewModel.users.filter ({ !$0.completed }).isEmpty {
-                    Text("No one is currently hiking this trail. Take the trail less followed.")
+                    Text("No one is currently hiking the \(route.name). Take the trail less followed.")
                         .padding()
                 } else {
                     HStack {
+                        Text("Pos.")
+                            .font(.subheadline)
+                            .bold()
+                            .frame(width: 35, alignment: .leading)
+                            .padding(.leading)
                         Text("Name")
                             .font(.subheadline)
                             .bold()
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.horizontal)
+                            //.padding(.horizontal)
                         Text("Miles")
                             .font(.subheadline)
                             .bold()
@@ -353,21 +374,29 @@ struct LeaderboardView: View {
                     
                     //.listRowBackground(Color("softGreen"))
                 }
-                List(viewModel.users.filter { !$0.completed }) { user in
+                List(Array(viewModel.users.filter { !$0.completed }.enumerated()), id: \.element.id) { index, user in
                     HStack {
+                        Text("\(index + 1)")
+                            .bold()
+                            .frame(width: 30, alignment: .leading) // Fixed width for alignment
                         Text(user.id)
                             .frame(maxWidth: .infinity, alignment: .leading)
+                            .font(.footnote)
                         Text(String(format: "%.2f", user.miles))
                             .frame(maxWidth: .infinity, alignment: .center)
+                            .font(.footnote)
                         Text(user.startDate, style: .date)
                             .frame(maxWidth: .infinity, alignment: .center)
+                            .font(.footnote)
                         if user.avgDistance == 0.0{
                             Text("TBD")
                                 .frame(maxWidth: .infinity, alignment: .trailing)
+                                .font(.footnote)
                         }
                         else{
                             Text(user.expectedFinish, style: .date)
                                 .frame(maxWidth: .infinity, alignment: .trailing)
+                                .font(.footnote)
                         }
                         
                     }
@@ -380,7 +409,7 @@ struct LeaderboardView: View {
             }
             .background(Color("softGreen"))
             .tabItem {
-                Label("In Progress", systemImage: "clock")
+                Label("Current", systemImage: "clock")
             }
         }
         //.background(Color("lightBrown"))

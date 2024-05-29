@@ -21,7 +21,7 @@ import FirebaseFirestore
 @main
 struct ThruHikerApp: App {
     @StateObject private var routeManager = RouteManager(routes: routes)
-    @StateObject private var healthKitManager = HealthKitManager() // Add HealthKitManager as an observed object
+    @StateObject private var healthKitManager = HealthKitManager()
     //@UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     init(){
