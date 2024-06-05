@@ -45,7 +45,13 @@ To build yourself:
 3) Install MapBoxMaps IOS SDK 11.4 and FireBase 10.27
 4) Build to target device
 
+
 ## User Guide
 To use ThruHiker, first you will need to accept the popup to approve the usage of Apple Health Data. After this you will need to enter a username to appear on leaderboards. Now, just start a route and start hiking. Note your progress will only update when you press the "View Progress" button. 
 
 From within map progress view, click on bottom image to see daily scenery of images near you. Click statistics in bottom right to open your route statistics, and click trophy icon to open leaderboard. 
+
+
+## Code Style Guide
+Rather than implementing our own style guide, we chose to follow Google's well established style guide for Swift. We chose this because it is almost universally followed as the 'correct' style guide for Swift and has extensive documentation that we were able to follow to leave minimal room for interpretation. 
+https://google.github.io/swift/
