@@ -99,7 +99,7 @@ struct MapView: View {
                 viewModel.fetchWeather(lat: latitude, lon: longitude)
                 
                 if route.started == false{
-                    self.startDate = Calendar.current.date(byAdding: .month, value: -6, to: Date())!
+                    self.startDate = Calendar.current.date(byAdding: .month, value: 0, to: Date())!
                     route.started = true
                 }
                 else{
