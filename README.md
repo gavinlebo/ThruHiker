@@ -24,11 +24,13 @@ Personalize your ThruHiking experience and fitness goals through a variety of su
 For deployed version:
 Must have iPhone with IOS 17.4+
 https://apps.apple.com/us/app/thruhiker/id6503459093
-To build on own:
+
+To build yourself:
 1) Clone Repo
 2) Open project in Xcode
 3) Build to target device
 
 ## User Guide
 To use ThruHiker, first you will need to accept the popup to approve the usage of Apple Health Data. After this you will need to enter a username to appear on leaderboards. Now, just start a route and start hiking. Note your progress will only update when you press the "View Progress" button. 
+
 From within map progress view, click on bottom image to see daily scenery of images near you. Click statistics in bottom right to open your route statistics, and click trophy icon to open leaderboard. 
