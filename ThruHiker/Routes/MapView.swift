@@ -99,7 +99,7 @@ struct MapView: View {
                 viewModel.fetchWeather(lat: latitude, lon: longitude)
                 
                 if route.started == false{
-                    self.startDate = Calendar.current.date(byAdding: .month, value: 0, to: Date())!
+                    self.startDate = Calendar.current.date(byAdding: .month, value: -6, to: Date())!
                     route.started = true
                 }
                 else{
@@ -171,6 +171,16 @@ struct MapView: View {
                     if newDistance > Mile{
                         Mile = newDistance
                     }
+                    
+                    
+                    //for testing
+                    
+//                    Mile = 1027.22
+//                    self.avgDistance = 5.62860273973
+//                    self.stepsWalked = 2054440
+//                    self.stepsWalkedToday = 12260
+//                    self.MileToday = 6.13
+                    
                     
                     if avgDistance > 0.0{
                         let daysRemaining = route.distance / avgDistance

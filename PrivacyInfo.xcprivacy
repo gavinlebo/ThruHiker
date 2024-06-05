@@ -2,7 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>MBXAccessToken</key>
-	<string>pk.eyJ1IjoiZ2F2aW5sZWJvIiwiYSI6ImNsdXlod2wwNzEyNnUyam14dHQ3aGxvaGcifQ.MCS9wBmsMiV_wgRWzSFKog</string>
+	<key>NSPrivacyAccessedAPITypes</key>
+	<array/>
+	<key>NSPrivacyCollectedDataTypes</key>
+	<array/>
+	<key>NSPrivacyTrackingDomains</key>
+	<array/>
+	<key>NSPrivacyTracking</key>
+	<false/>
 </dict>
 </plist>
