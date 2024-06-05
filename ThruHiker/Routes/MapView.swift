@@ -172,6 +172,16 @@ struct MapView: View {
                         Mile = newDistance
                     }
                     
+                    
+                    //for testing
+                    
+//                    Mile = 1027.22
+//                    self.avgDistance = 5.62860273973
+//                    self.stepsWalked = 2054440
+//                    self.stepsWalkedToday = 12260
+//                    self.MileToday = 6.13
+                    
+                    
                     if avgDistance > 0.0{
                         let daysRemaining = route.distance / avgDistance
                         
