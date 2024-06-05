@@ -28,7 +28,8 @@ https://apps.apple.com/us/app/thruhiker/id6503459093
 To build yourself:
 1) Clone Repo
 2) Open project in Xcode
-3) Build to target device
+3) Install MapBoxMaps IOS SDK 11.4 and FireBase 10.27
+4) Build to target device
 
 ## User Guide
 To use ThruHiker, first you will need to accept the popup to approve the usage of Apple Health Data. After this you will need to enter a username to appear on leaderboards. Now, just start a route and start hiking. Note your progress will only update when you press the "View Progress" button. 
